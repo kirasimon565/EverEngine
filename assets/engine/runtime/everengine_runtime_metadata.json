@@ -1,0 +1,5 @@
+{
+  "version": "1.0.0",
+  "flutter_sdk": "3.43.0",
+  "abis": ["arm64-v8a"]
+}
