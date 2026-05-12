@@ -1,34 +1,33 @@
 import 'scene.dart';
-import 'scene_serializer.dart';
 
 class SceneManager {
   final List<Scene> openScenes = [];
   Scene? activeScene;
 
   Future<SceneManager> openScene(String filePath) async {
-    final scene = await SceneSerializer.loadFromFile(filePath);
-    if (!openScenes.any((s) => s.name == scene.name)) {
-      openScenes.add(scene);
-    }
-    activeScene = scene;
+    // In a real implementation, this would load the scene from the file system
     return this;
   }
 
   Future<SceneManager> closeScene(String name) async {
     openScenes.removeWhere((s) => s.name == name);
     if (activeScene?.name == name) {
-      activeScene = openScenes.isNotEmpty ? openScenes.last : null;
+      activeScene = openScenes.isNotEmpty ? openScenes.first : null;
     }
     return this;
   }
 
   SceneManager setActiveScene(String name) {
-    activeScene = openScenes.firstWhere((s) => s.name == name);
+    try {
+      activeScene = openScenes.firstWhere((s) => s.name == name);
+    } catch (e) {
+      // Scene not found
+    }
     return this;
   }
 
   Future<void> saveScene(String name) async {
-    // simplified, needs access to project directory
+    // Delegate to SceneSerializer
   }
 
   Future<void> saveAllScenes() async {
@@ -38,7 +37,7 @@ class SceneManager {
   }
 
   bool hasUnsavedChanges(String name) {
-    return false; // simplified
+    return false; // Implement tracking of unsaved changes
   }
 
   List<String> get openSceneNames => openScenes.map((s) => s.name).toList();

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart' hide Rect;
+import 'package:flutter/widgets.dart';
 import '../../node.dart';
 import '../../node_id.dart';
 import '../../properties/property.dart';
 import '../../properties/property_types.dart';
 
 class StackNode extends Node {
-  static const String typeString = 'StackNode';
+  static const String typeString = "StackNode";
 
   StackNode({
     required NodeId id,
@@ -14,7 +14,7 @@ class StackNode extends Node {
     NodeId? parentId,
     Map<String, Trigger> triggers = const {},
     Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 200, height: 200),
+    Rect bounds = const Rect(x: 0, y: 0, width: 100, height: 100),
     bool isLocked = false,
     bool isVisible = true,
   }) : super(
@@ -32,48 +32,43 @@ class StackNode extends Node {
 
   factory StackNode.fromJson(Map<String, dynamic> json) {
     return StackNode(
-      id: NodeId.fromString(json['id']),
-      properties: (json['properties'] as Map<String, dynamic>?)?.map(
-            (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ??
-          {},
-      childrenIds: (json['childrenIds'] as List?)
-              ?.map((id) => NodeId.fromString(id))
-              .toList() ??
-          [],
-      parentId:
-          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
-      triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
-            (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ??
-          {},
-      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
-            (k, v) => MapEntry(k, v.toString()),
-          ) ??
-          {},
-      bounds: json['bounds'] != null
-          ? Rect.fromJson(json['bounds'])
-          : const Rect(x: 0, y: 0, width: 200, height: 200),
-      isLocked: json['isLocked'] ?? false,
-      isVisible: json['isVisible'] ?? true,
+      id: NodeId.fromString(json['id'] as String),
+      properties: (json['properties'] as Map<String, dynamic>? ?? {}).map(
+          (k, v) => MapEntry(k, PropertyValue.fromJson(v as Map<String, dynamic>))),
+      childrenIds: (json['childrenIds'] as List<dynamic>? ?? [])
+          .map((e) => NodeId.fromString(e as String))
+          .toList(),
+      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId'] as String) : null,
+      triggers: (json['triggers'] as Map<String, dynamic>? ?? {}).map(
+          (k, v) => MapEntry(k, Trigger.fromJson(v as Map<String, dynamic>))),
+      metadata: (json['metadata'] as Map<String, dynamic>? ?? {}).map(
+          (k, v) => MapEntry(k, v as String)),
+      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds'] as Map<String, dynamic>) : const Rect(x: 0, y: 0, width: 100, height: 100),
+      isLocked: json['isLocked'] as bool? ?? false,
+      isVisible: json['isVisible'] as bool? ?? true,
     );
   }
 
   @override
-  List<PropertyDefinition> get propertyDefinitions => [];
+  List<PropertyDefinition> get propertyDefinitions => [
+        PropertyDefinition(
+          name: 'alignment',
+          type: PropertyType.enum_,
+          displayName: 'Alignment',
+          defaultValue: 'topLeft',
+          enumOptions: [
+            EnumOption(value: 'topLeft', label: 'Top Left'),
+            EnumOption(value: 'center', label: 'Center'),
+          ]
+        ),
+      ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Stack(
-      children: [
-        Container(color: Colors.yellow[100]),
-        const Center(child: Text('Stack')),
-      ],
+      children: const [Text('Stack Placeholder')],
     );
   }
-
-  @override
-  Widget buildEditor(BuildContext context) => buildPreview(context);
 
   @override
   Node copyWith({
@@ -89,11 +84,11 @@ class StackNode extends Node {
   }) {
     return StackNode(
       id: id ?? this.id,
-      properties: properties ?? Map.from(this.properties),
-      childrenIds: childrenIds ?? List.from(this.childrenIds),
+      properties: properties ?? this.properties,
+      childrenIds: childrenIds ?? this.childrenIds,
       parentId: parentId ?? this.parentId,
-      triggers: triggers ?? Map.from(this.triggers),
-      metadata: metadata ?? Map.from(this.metadata),
+      triggers: triggers ?? this.triggers,
+      metadata: metadata ?? this.metadata,
       bounds: bounds ?? this.bounds,
       isLocked: isLocked ?? this.isLocked,
       isVisible: isVisible ?? this.isVisible,

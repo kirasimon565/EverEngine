@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
 
 class FileUtils {
   static Future<void> ensureDirectory(String path) async {
@@ -12,14 +11,18 @@ class FileUtils {
 
   static Future<void> copyDirectory(String src, String dest) async {
     final srcDir = Directory(src);
+    if (!await srcDir.exists()) return;
+
     await ensureDirectory(dest);
 
     await for (final entity in srcDir.list(recursive: false)) {
-      final newPath = p.join(dest, p.basename(entity.path));
+      final name = entity.uri.pathSegments.lastWhere((s) => s.isNotEmpty);
+      final destPath = '$dest/$name';
+
       if (entity is Directory) {
-        await copyDirectory(entity.path, newPath);
+        await copyDirectory(entity.path, destPath);
       } else if (entity is File) {
-        await entity.copy(newPath);
+        await entity.copy(destPath);
       }
     }
   }
@@ -32,16 +35,16 @@ class FileUtils {
   }
 
   static Future<int> directorySize(String path) async {
-    int totalSize = 0;
     final dir = Directory(path);
-    if (await dir.exists()) {
-      await for (final entity in dir.list(recursive: true)) {
-        if (entity is File) {
-          totalSize += await entity.length();
-        }
+    if (!await dir.exists()) return 0;
+
+    int size = 0;
+    await for (final entity in dir.list(recursive: true)) {
+      if (entity is File) {
+        size += await entity.length();
       }
     }
-    return totalSize;
+    return size;
   }
 
   static Future<String> tempDirectory() async {

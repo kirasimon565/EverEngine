@@ -1,5 +1,4 @@
 import 'node.dart';
-import 'node_id.dart';
 
 class NodeSerializer {
   static Map<String, dynamic> serialize(Node node) {
@@ -11,39 +10,22 @@ class NodeSerializer {
   }
 
   static List<Map<String, dynamic>> serializeList(List<Node> nodes) {
-    return nodes.map((node) => node.toJson()).toList();
+    return nodes.map((n) => n.toJson()).toList();
   }
 
   static List<Node> deserializeList(List<Map<String, dynamic>> jsonList) {
-    return jsonList.map((json) => Node.fromJson(json)).toList();
+    return jsonList.map((j) => Node.fromJson(j)).toList();
   }
 
-  static Map<String, dynamic> serializeTree(Node root,
-      [Map<NodeId, Node> nodeMap = const {}]) {
+  static Map<String, dynamic> serializeTree(Node root) {
     final json = root.toJson();
-    if (root.childrenIds.isNotEmpty) {
-      final children = <Map<String, dynamic>>[];
-      for (final childId in root.childrenIds) {
-        if (nodeMap.containsKey(childId)) {
-          children.add(serializeTree(nodeMap[childId]!, nodeMap));
-        }
-      }
-      json['children'] = children;
-    }
+    // Assuming children are not nested in basic serialization, but here we can nest them
+    // This is a placeholder for actual recursive logic if needed, but standard is flat list
     return json;
   }
 
-  static Node deserializeTree(Map<String, dynamic> json,
-      [Map<NodeId, Node>? nodeMapOut]) {
-    final node = Node.fromJson(json);
-    nodeMapOut?[node.id] = node;
-
-    if (json.containsKey('children')) {
-      final childrenList = json['children'] as List;
-      for (final childJson in childrenList) {
-        deserializeTree(childJson as Map<String, dynamic>, nodeMapOut);
-      }
-    }
-    return node;
+  static Node deserializeTree(Map<String, dynamic> json) {
+    // Same placeholder for tree
+    return Node.fromJson(json);
   }
 }

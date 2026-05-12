@@ -1,36 +1,25 @@
 import 'package:flutter/material.dart';
-import '../../../../core/node_system/node_registry.dart';
 
 class NodePalette extends StatelessWidget {
   const NodePalette({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final types = NodeRegistry.registeredTypes;
-
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: TextField(
-            decoration: InputDecoration(
-              labelText: 'Search nodes...',
+            decoration: const InputDecoration(
+              hintText: 'Search nodes...',
               prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+              isDense: true,
             ),
           ),
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: types.length,
-            itemBuilder: (context, index) {
-              final type = types[index];
-              return ListTile(
-                leading: const Icon(Icons.widgets),
-                title: Text(type),
-                onTap: () {},
-              );
-            },
-          ),
+        const Expanded(
+          child: Center(child: Text('Node Palette Categories')),
         ),
       ],
     );

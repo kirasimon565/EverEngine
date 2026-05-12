@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart' hide Rect;
+import 'package:flutter/widgets.dart';
 import '../../node.dart';
 import '../../node_id.dart';
-import '../../node_registry.dart';
 import '../../properties/property.dart';
 import '../../properties/property_types.dart';
 import '../../../utils/color_utils.dart';
 
 class ContainerNode extends Node {
-  static const String typeString = 'ContainerNode';
+  static const String typeString = "ContainerNode";
 
   ContainerNode({
     required NodeId id,
@@ -34,55 +33,29 @@ class ContainerNode extends Node {
 
   factory ContainerNode.fromJson(Map<String, dynamic> json) {
     return ContainerNode(
-      id: NodeId.fromString(json['id']),
-      properties: (json['properties'] as Map<String, dynamic>?)?.map(
-            (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ??
-          {},
-      childrenIds: (json['childrenIds'] as List?)
-              ?.map((id) => NodeId.fromString(id))
-              .toList() ??
-          [],
-      parentId:
-          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
-      triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
-            (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ??
-          {},
-      metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
-            (k, v) => MapEntry(k, v.toString()),
-          ) ??
-          {},
-      bounds: json['bounds'] != null
-          ? Rect.fromJson(json['bounds'])
-          : const Rect(x: 0, y: 0, width: 100, height: 100),
-      isLocked: json['isLocked'] ?? false,
-      isVisible: json['isVisible'] ?? true,
+      id: NodeId.fromString(json['id'] as String),
+      properties: (json['properties'] as Map<String, dynamic>? ?? {}).map(
+          (k, v) => MapEntry(k, PropertyValue.fromJson(v as Map<String, dynamic>))),
+      childrenIds: (json['childrenIds'] as List<dynamic>? ?? [])
+          .map((e) => NodeId.fromString(e as String))
+          .toList(),
+      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId'] as String) : null,
+      triggers: (json['triggers'] as Map<String, dynamic>? ?? {}).map(
+          (k, v) => MapEntry(k, Trigger.fromJson(v as Map<String, dynamic>))),
+      metadata: (json['metadata'] as Map<String, dynamic>? ?? {}).map(
+          (k, v) => MapEntry(k, v as String)),
+      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds'] as Map<String, dynamic>) : const Rect(x: 0, y: 0, width: 100, height: 100),
+      isLocked: json['isLocked'] as bool? ?? false,
+      isVisible: json['isVisible'] as bool? ?? true,
     );
   }
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        PropertyDefinition(
-            name: 'width',
-            type: PropertyType.double_,
-            defaultValue: 100.0,
-            displayName: 'Width'),
-        PropertyDefinition(
-            name: 'height',
-            type: PropertyType.double_,
-            defaultValue: 100.0,
-            displayName: 'Height'),
-        PropertyDefinition(
-            name: 'color',
-            type: PropertyType.color,
-            defaultValue: '#FFFFFF',
-            displayName: 'Color'),
-        PropertyDefinition(
-            name: 'borderRadius',
-            type: PropertyType.double_,
-            defaultValue: 0.0,
-            displayName: 'Border Radius'),
+        PropertyDefinition(name: 'width', type: PropertyType.double_, displayName: 'Width', defaultValue: 100.0),
+        PropertyDefinition(name: 'height', type: PropertyType.double_, displayName: 'Height', defaultValue: 100.0),
+        PropertyDefinition(name: 'color', type: PropertyType.color, displayName: 'Color', defaultValue: '#FFFFFF'),
+        PropertyDefinition(name: 'borderRadius', type: PropertyType.double_, displayName: 'Border Radius', defaultValue: 0.0),
       ];
 
   @override
@@ -103,11 +76,6 @@ class ContainerNode extends Node {
   }
 
   @override
-  Widget buildEditor(BuildContext context) {
-    return buildPreview(context); // Simple for now
-  }
-
-  @override
   Node copyWith({
     NodeId? id,
     Map<String, PropertyValue>? properties,
@@ -121,11 +89,11 @@ class ContainerNode extends Node {
   }) {
     return ContainerNode(
       id: id ?? this.id,
-      properties: properties ?? Map.from(this.properties),
-      childrenIds: childrenIds ?? List.from(this.childrenIds),
+      properties: properties ?? this.properties,
+      childrenIds: childrenIds ?? this.childrenIds,
       parentId: parentId ?? this.parentId,
-      triggers: triggers ?? Map.from(this.triggers),
-      metadata: metadata ?? Map.from(this.metadata),
+      triggers: triggers ?? this.triggers,
+      metadata: metadata ?? this.metadata,
       bounds: bounds ?? this.bounds,
       isLocked: isLocked ?? this.isLocked,
       isVisible: isVisible ?? this.isVisible,
@@ -134,4 +102,7 @@ class ContainerNode extends Node {
 
   @override
   bool canHaveChildren() => true;
+
+  @override
+  int get maxChildren => -1;
 }

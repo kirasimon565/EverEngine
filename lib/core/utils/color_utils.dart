@@ -1,15 +1,19 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class ColorUtils {
-  static Color fromHex(String hexString) {
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
+  static Color fromHex(String hex) {
+    String hexColor = hex.replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF$hexColor';
+    }
+    if (hexColor.length == 8) {
+      return Color(int.parse('0x$hexColor'));
+    }
+    return const Color(0xFF000000); // Default to black
   }
 
   static String toHex(Color color) {
-    return '#${color.value.toRadixString(16).padLeft(8, '0')}';
+    return '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
   }
 
   static Color lerpColor(Color a, Color b, double t) {

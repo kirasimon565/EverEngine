@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:everengine/state/state.dart';
+import 'package:everengine/state/editor_state.dart';
 import 'package:everengine/core/scene_system/scene.dart';
 import 'package:everengine/core/node_system/node_id.dart';
 import 'package:everengine/core/node_system/types/ui_nodes/container_node.dart';
@@ -8,44 +7,52 @@ import 'package:everengine/core/node_system/types/ui_nodes/container_node.dart';
 void main() {
   group('EditorNotifier', () {
     test('setActiveScene updates state', () {
-      final container = ProviderContainer();
-      final notifier = container.read(editorProvider.notifier);
-
-      final scene = Scene(
-        name: 'Test',
-        displayName: 'Test',
-        rootNode: ContainerNode(id: NodeId.generate()),
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
+      final notifier = EditorNotifier();
+      final scene = Scene(name: 's1', displayName: 'S1', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
 
       notifier.setActiveScene(scene);
 
-      final state = container.read(editorProvider);
-      expect(state.activeScene, equals(scene));
+      expect(notifier.state.activeScene, equals(scene));
     });
 
     test('selectNode updates selectedNodeId', () {
-      final container = ProviderContainer();
-      final notifier = container.read(editorProvider.notifier);
-
+      final notifier = EditorNotifier();
       notifier.selectNode('test-id');
 
-      final state = container.read(editorProvider);
-      expect(state.selectedNodeId, equals('test-id'));
-      expect(state.selectedNodeIds, equals(['test-id']));
+      expect(notifier.state.selectedNodeId, equals('test-id'));
+      expect(notifier.state.selectedNodeIds, equals(['test-id']));
+    });
+
+    test('multiSelectAdd adds to list', () {
+      final notifier = EditorNotifier();
+      notifier.selectNode('id1');
+      notifier.multiSelectAdd('id2');
+
+      expect(notifier.state.selectedNodeIds, equals(['id1', 'id2']));
     });
 
     test('clearSelection empties selection', () {
-      final container = ProviderContainer();
-      final notifier = container.read(editorProvider.notifier);
-
+      final notifier = EditorNotifier();
       notifier.selectNode('test-id');
       notifier.clearSelection();
 
-      final state = container.read(editorProvider);
-      expect(state.selectedNodeId, isNull);
-      expect(state.selectedNodeIds, isEmpty);
+      expect(notifier.state.selectedNodeId, isNull);
+      expect(notifier.state.selectedNodeIds, isEmpty);
+    });
+
+    test('setViewMode changes mode', () {
+      final notifier = EditorNotifier();
+      notifier.setViewMode(EditorViewMode.code);
+
+      expect(notifier.state.viewMode, equals(EditorViewMode.code));
+    });
+
+    test('updateCanvas updates canvas state', () {
+      final notifier = EditorNotifier();
+      const newState = CanvasState(zoom: 2.0);
+      notifier.updateCanvas(newState);
+
+      expect(notifier.state.canvasState.zoom, equals(2.0));
     });
   });
 }

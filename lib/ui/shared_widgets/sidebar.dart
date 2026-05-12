@@ -13,11 +13,11 @@ class EESidebar extends StatefulWidget {
   const EESidebar({
     super.key,
     required this.child,
-    this.width = 250.0,
+    this.width = 250,
     this.side = SidebarSide.left,
     this.resizable = true,
-    this.minWidth = 160.0,
-    this.maxWidth = 500.0,
+    this.minWidth = 160,
+    this.maxWidth = 500,
   });
 
   @override
@@ -35,40 +35,9 @@ class _EESidebarState extends State<EESidebar> {
 
   @override
   Widget build(BuildContext context) {
-    final handle = GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onPanUpdate: widget.resizable
-          ? (details) {
-              setState(() {
-                final delta = widget.side == SidebarSide.left
-                    ? details.delta.dx
-                    : -details.delta.dx;
-                _currentWidth = (_currentWidth + delta)
-                    .clamp(widget.minWidth, widget.maxWidth);
-              });
-            }
-          : null,
-      child: MouseRegion(
-        cursor: widget.resizable
-            ? SystemMouseCursors.resizeLeftRight
-            : MouseCursor.defer,
-        child: Container(
-          width: 4.0,
-          color: Colors.black12,
-        ),
-      ),
-    );
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (widget.side == SidebarSide.right) handle,
-        SizedBox(
-          width: _currentWidth,
-          child: widget.child,
-        ),
-        if (widget.side == SidebarSide.left) handle,
-      ],
+    return SizedBox(
+      width: _currentWidth,
+      child: widget.child,
     );
   }
 }

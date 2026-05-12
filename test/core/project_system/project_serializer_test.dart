@@ -6,19 +6,20 @@ void main() {
   group('ProjectSerializer', () {
     test('serialize and deserialize project', () {
       final project = Project(
-        name: 'Test Game',
+        name: 'My Game',
         packageName: 'com.test.game',
-        projectDir: '/test/dir',
-        createdAt: DateTime(2023),
-        updatedAt: DateTime(2023),
+        engineVersion: '1.0.0',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        projectDir: '/tmp/test_project',
       );
 
       final json = ProjectSerializer.serialize(project);
-      final deserialized = ProjectSerializer.deserialize(json, '/test/dir');
+      final deserialized = ProjectSerializer.deserialize(json);
 
-      expect(deserialized.name, equals('Test Game'));
-      expect(deserialized.packageName, equals('com.test.game'));
-      expect(deserialized.projectDir, equals('/test/dir'));
+      expect(deserialized.name, equals(project.name));
+      expect(deserialized.packageName, equals(project.packageName));
+      expect(deserialized.projectDir, equals(project.projectDir));
     });
   });
 }

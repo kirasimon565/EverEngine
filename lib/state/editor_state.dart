@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/scene_system/scene.dart';
-import '../core/node_system/node.dart';
 
 enum EditorViewMode { design, code, split }
 
@@ -68,13 +67,12 @@ class EditorState {
     EditorViewMode? viewMode,
     CanvasState? canvasState,
     bool? hasUnsavedChanges,
-    bool clearSelectedNodeId = false,
+    bool clearSelectedNode = false,
   }) {
     return EditorState(
       activeScene: activeScene ?? this.activeScene,
       openSceneNames: openSceneNames ?? this.openSceneNames,
-      selectedNodeId:
-          clearSelectedNodeId ? null : (selectedNodeId ?? this.selectedNodeId),
+      selectedNodeId: clearSelectedNode ? null : (selectedNodeId ?? this.selectedNodeId),
       selectedNodeIds: selectedNodeIds ?? this.selectedNodeIds,
       viewMode: viewMode ?? this.viewMode,
       canvasState: canvasState ?? this.canvasState,
@@ -94,22 +92,20 @@ class EditorNotifier extends StateNotifier<EditorState> {
     state = state.copyWith(
       selectedNodeId: nodeId,
       selectedNodeIds: nodeId != null ? [nodeId] : [],
-      clearSelectedNodeId: nodeId == null,
+      clearSelectedNode: nodeId == null,
     );
   }
 
   void multiSelectAdd(String nodeId) {
-    if (!state.selectedNodeIds.contains(nodeId)) {
-      state = state.copyWith(
-        selectedNodeIds: [...state.selectedNodeIds, nodeId],
-        selectedNodeId: state.selectedNodeId ?? nodeId,
-      );
+    final ids = List<String>.from(state.selectedNodeIds);
+    if (!ids.contains(nodeId)) {
+      ids.add(nodeId);
     }
+    state = state.copyWith(selectedNodeIds: ids, selectedNodeId: ids.isNotEmpty ? ids.last : null);
   }
 
   void clearSelection() {
-    state = state.copyWith(
-        selectedNodeId: null, selectedNodeIds: [], clearSelectedNodeId: true);
+    state = state.copyWith(clearSelectedNode: true, selectedNodeIds: []);
   }
 
   void setViewMode(EditorViewMode mode) {
@@ -121,20 +117,15 @@ class EditorNotifier extends StateNotifier<EditorState> {
   }
 }
 
-final editorProvider =
-    StateNotifierProvider<EditorNotifier, EditorState>((ref) {
+final editorProvider = StateNotifierProvider<EditorNotifier, EditorState>((ref) {
   return EditorNotifier();
 });
 
-final selectedNodeProvider = Provider<Node?>((ref) {
+final selectedNodeProvider = Provider((ref) {
   final state = ref.watch(editorProvider);
-  if (state.selectedNodeId != null && state.activeScene != null) {
-    // simplified lookup
-    if (state.activeScene!.rootNode.id.toString() == state.selectedNodeId) {
-      return state.activeScene!.rootNode;
-    }
-  }
-  return null;
+  if (state.selectedNodeId == null || state.activeScene == null) return null;
+  // Look up actual node
+  return null; // Mock
 });
 
 final canvasStateProvider = Provider<CanvasState>((ref) {

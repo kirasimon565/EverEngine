@@ -20,16 +20,13 @@ class EEToolbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      color: backgroundColor ?? Theme.of(context).appBarTheme.backgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      color: backgroundColor ?? Theme.of(context).primaryColor,
       child: Row(
         children: [
-          ...leftActions,
-          if (leftActions.isNotEmpty && title != null)
-            const SizedBox(width: 16),
-          if (title != null) Expanded(child: title!),
+          Row(children: leftActions),
+          if (title != null) Expanded(child: Center(child: title!)),
           if (title == null) const Spacer(),
-          ...rightActions,
+          Row(children: rightActions),
         ],
       ),
     );

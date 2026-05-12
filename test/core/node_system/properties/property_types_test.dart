@@ -2,28 +2,30 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:everengine/core/node_system/properties/property_types.dart';
 
 void main() {
-  group('PropertyValue', () {
-    test('serializes and deserializes', () {
-      final prop = PropertyValue(
-          value: 'test',
-          type: PropertyType.string,
-          isBound: true,
-          boundVariableName: 'var');
+  group('PropertyTypes', () {
+    test('PropertyValue serializes and deserializes all types', () {
+      final prop = PropertyValue(value: 'test', type: PropertyType.string, isBound: true, boundVariableName: 'var1');
       final json = prop.toJson();
-      final decoded = PropertyValue.fromJson(json);
+      final newProp = PropertyValue.fromJson(json);
 
-      expect(decoded.value, equals('test'));
-      expect(decoded.type, equals(PropertyType.string));
-      expect(decoded.isBound, isTrue);
-      expect(decoded.boundVariableName, equals('var'));
+      expect(newProp.value, equals('test'));
+      expect(newProp.type, equals(PropertyType.string));
+      expect(newProp.isBound, isTrue);
+      expect(newProp.boundVariableName, equals('var1'));
     });
-  });
 
-  group('EnumOption', () {
-    test('equality', () {
-      final opt1 = EnumOption(value: 'val', label: 'Label');
-      final opt2 = EnumOption(value: 'val', label: 'Label');
+    test('PropertyValue correctly reports isBound', () {
+      final prop = PropertyValue(value: 'test', type: PropertyType.string, isBound: true);
+      expect(prop.isBound, isTrue);
+    });
+
+    test('EnumOption equality', () {
+      const opt1 = EnumOption(value: '1', label: 'One');
+      const opt2 = EnumOption(value: '1', label: 'One');
+      const opt3 = EnumOption(value: '2', label: 'Two');
+
       expect(opt1, equals(opt2));
+      expect(opt1, isNot(equals(opt3)));
     });
   });
 }

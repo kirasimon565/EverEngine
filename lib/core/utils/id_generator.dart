@@ -8,8 +8,7 @@ class IdGenerator {
   }
 
   static String generateShort() {
-    final fullId = generate();
-    return fullId.substring(0, 8);
+    return _uuid.v4().substring(0, 8);
   }
 
   static bool isValid(String id) {

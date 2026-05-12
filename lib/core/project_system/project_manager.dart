@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:path/path.dart' as p;
 import 'project.dart';
 import 'project_serializer.dart';
 import '../utils/file_utils.dart';
@@ -10,20 +9,20 @@ class ProjectManager {
   ProjectManager(this.projectsRootDir);
 
   Future<List<Project>> getRecentProjects({int limit = 20}) async {
-    final projects = <Project>[];
-    if (await projectsRootDir.exists()) {
-      await for (final entity in projectsRootDir.list()) {
-        if (entity is Directory) {
-          try {
-            final project =
-                await ProjectSerializer.loadProjectFile(entity.path);
-            projects.add(project);
-          } catch (e) {
-            // Skip invalid project directories
-          }
-        }
+    if (!await projectsRootDir.exists()) return [];
+
+    final List<Project> projects = [];
+    final dirs = projectsRootDir.listSync().whereType<Directory>();
+
+    for (final dir in dirs) {
+      try {
+        final project = await ProjectSerializer.loadProjectFile(dir.path);
+        projects.add(project);
+      } catch (e) {
+        // Skip invalid projects
       }
     }
+
     projects.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     return projects.take(limit).toList();
   }
@@ -32,33 +31,28 @@ class ProjectManager {
     required String name,
     required String packageName,
     String template = 'blank',
-    String orientation = 'auto',
+    String orientation = 'portrait',
   }) async {
-    final projectDir = p.join(projectsRootDir.path, name);
-    await FileUtils.ensureDirectory(projectDir);
+    final projectDirName = name.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_').toLowerCase();
+    final projectDir = '${projectsRootDir.path}/$projectDirName';
 
-    final dirsToCreate = [
-      'scenes',
-      'assets/images',
-      'assets/audio',
-      'assets/fonts',
-      'assets/videos',
-      'variables',
-      'characters',
-      'scripts',
-      'export_profiles',
-      'exports',
-    ];
-
-    for (final dir in dirsToCreate) {
-      await FileUtils.ensureDirectory(p.join(projectDir, dir));
-    }
+    await FileUtils.ensureDirectory('$projectDir/scenes');
+    await FileUtils.ensureDirectory('$projectDir/assets/images');
+    await FileUtils.ensureDirectory('$projectDir/assets/audio');
+    await FileUtils.ensureDirectory('$projectDir/assets/fonts');
+    await FileUtils.ensureDirectory('$projectDir/assets/videos');
+    await FileUtils.ensureDirectory('$projectDir/variables');
+    await FileUtils.ensureDirectory('$projectDir/characters');
+    await FileUtils.ensureDirectory('$projectDir/scripts');
+    await FileUtils.ensureDirectory('$projectDir/export_profiles');
+    await FileUtils.ensureDirectory('$projectDir/exports');
 
     final project = Project(
       name: name,
       packageName: packageName,
       template: template,
       orientation: orientation,
+      engineVersion: '1.0.0', // In a real app, get this dynamically
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       projectDir: projectDir,
@@ -69,16 +63,16 @@ class ProjectManager {
   }
 
   Future<Project> openProject(String projectDir) async {
-    return ProjectSerializer.loadProjectFile(projectDir);
+    return await ProjectSerializer.loadProjectFile(projectDir);
   }
 
   Future<void> saveProject(Project project) async {
-    final updated = project.copyWith(updatedAt: DateTime.now());
-    await ProjectSerializer.saveProjectFile(updated);
+    final updatedProject = project.copyWith(updatedAt: DateTime.now());
+    await ProjectSerializer.saveProjectFile(updatedProject);
   }
 
   Future<void> closeProject(Project project) async {
-    // simplified
+    // Save state, close scenes, etc.
   }
 
   Future<void> deleteProject(Project project) async {
@@ -86,30 +80,43 @@ class ProjectManager {
   }
 
   Future<Project> duplicateProject(Project project, String newName) async {
-    final newDir = p.join(projectsRootDir.path, newName);
+    final newDirName = newName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_').toLowerCase();
+    final newDir = '${projectsRootDir.path}/$newDirName';
+
     await FileUtils.copyDirectory(project.projectDir, newDir);
 
-    final newProject = project.copyWith(
+    final duplicatedProject = project.copyWith(
       name: newName,
       projectDir: newDir,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
 
-    await ProjectSerializer.saveProjectFile(newProject);
-    return newProject;
+    await ProjectSerializer.saveProjectFile(duplicatedProject);
+    return duplicatedProject;
   }
 
   Future<void> renameProject(Project project, String newName) async {
-    // simplified - would normally need to rename directory and update project.json
+    final updatedProject = project.copyWith(name: newName, updatedAt: DateTime.now());
+    await ProjectSerializer.saveProjectFile(updatedProject);
   }
 
   Future<String> getTotalProjectSize(Project project) async {
     final size = await FileUtils.directorySize(project.projectDir);
+    // Convert to readable format
+    if (size < 1024) return '$size B';
+    if (size < 1024 * 1024) return '${(size / 1024).toStringAsFixed(2)} KB';
     return '${(size / (1024 * 1024)).toStringAsFixed(2)} MB';
   }
 
   Future<bool> validateProject(Project project) async {
-    return true; // placeholder
+    // Check if critical files/directories exist
+    final dir = Directory(project.projectDir);
+    if (!await dir.exists()) return false;
+
+    final projectFile = File('${project.projectDir}/project.json');
+    if (!await projectFile.exists()) return false;
+
+    return true;
   }
 }

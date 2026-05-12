@@ -29,37 +29,33 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
   HistoryNotifier() : super(const HistoryState());
 
   void pushState(Scene scene) {
-    final newUndoStack = List<Scene>.from(state.undoStack)..add(scene);
-    if (newUndoStack.length > state.maxHistory) {
-      newUndoStack.removeAt(0);
+    final newUndo = List<Scene>.from(state.undoStack)..add(scene);
+    if (newUndo.length > state.maxHistory) {
+      newUndo.removeAt(0);
     }
-    state = state.copyWith(
-      undoStack: newUndoStack,
-      redoStack: [],
-    );
+    state = state.copyWith(undoStack: newUndo, redoStack: []);
   }
 
   Scene? undo() {
     if (!canUndo) return null;
-    final scene = state.undoStack.last;
-    final newUndoStack = List<Scene>.from(state.undoStack)..removeLast();
-    state = state.copyWith(
-      undoStack: newUndoStack,
-      redoStack: List<Scene>.from(state.redoStack)
-        ..add(scene), // In a real app we need the current state to push to redo
-    );
-    return scene;
+    final sceneToRedo = state.undoStack.last;
+    final newUndo = List<Scene>.from(state.undoStack)..removeLast();
+    final newRedo = List<Scene>.from(state.redoStack)..add(sceneToRedo);
+
+    state = state.copyWith(undoStack: newUndo, redoStack: newRedo);
+
+    return newUndo.isNotEmpty ? newUndo.last : null;
   }
 
   Scene? redo() {
     if (!canRedo) return null;
-    final scene = state.redoStack.last;
-    final newRedoStack = List<Scene>.from(state.redoStack)..removeLast();
-    state = state.copyWith(
-      undoStack: List<Scene>.from(state.undoStack)..add(scene),
-      redoStack: newRedoStack,
-    );
-    return scene;
+    final sceneToUndo = state.redoStack.last;
+    final newRedo = List<Scene>.from(state.redoStack)..removeLast();
+    final newUndo = List<Scene>.from(state.undoStack)..add(sceneToUndo);
+
+    state = state.copyWith(undoStack: newUndo, redoStack: newRedo);
+
+    return sceneToUndo;
   }
 
   bool get canUndo => state.undoStack.isNotEmpty;
@@ -70,7 +66,6 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
   }
 }
 
-final historyProvider =
-    StateNotifierProvider<HistoryNotifier, HistoryState>((ref) {
+final historyProvider = StateNotifierProvider<HistoryNotifier, HistoryState>((ref) {
   return HistoryNotifier();
 });

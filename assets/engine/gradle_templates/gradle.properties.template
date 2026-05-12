@@ -1,3 +1,5 @@
-org.gradle.jvmargs=-Xmx4G -XX:MaxMetaspaceSize=2G
+org.gradle.jvmargs=-Xmx1536M
 android.useAndroidX=true
-kotlin.stdlib.default.dependency=false
+android.enableJetifier=true
+kotlin.version={{KOTLIN_VERSION}}
+agp.version={{AGP_VERSION}}

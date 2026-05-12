@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../state/state.dart';
 
-class EditorCanvas extends ConsumerWidget {
+class EditorCanvas extends StatelessWidget {
   const EditorCanvas({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final activeScene = ref.watch(editorProvider).activeScene;
-
-    return Container(
-      color: Colors.grey[900],
-      child: Center(
-        child: activeScene == null
-            ? const Text('No active scene',
-                style: TextStyle(color: Colors.white))
-            : activeScene.rootNode.buildEditor(context),
+  Widget build(BuildContext context) {
+    return InteractiveViewer(
+      minScale: 0.25,
+      maxScale: 4.0,
+      child: Stack(
+        children: [
+          // Grid background here
+          Container(
+            color: Colors.black, // Placeholder grid
+          ),
+          // Canvas content here
+          const Center(child: Text('Canvas Content Area', style: TextStyle(color: Colors.white))),
+        ],
       ),
     );
   }

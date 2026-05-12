@@ -14,8 +14,7 @@ class MathUtils {
     return (value - a) / (b - a);
   }
 
-  static double remap(double value, double fromMin, double fromMax,
-      double toMin, double toMax) {
+  static double remap(double value, double fromMin, double fromMax, double toMin, double toMax) {
     final t = inverseLerp(fromMin, fromMax, value);
     return lerp(toMin, toMax, t);
   }
