@@ -19,7 +19,7 @@ class Scene {
     required this.displayName,
     required this.rootNode,
     this.backgroundColor,
-    this.orientation = 'auto',
+    this.orientation = 'portrait',
     this.transitionIn = 'fade',
     this.transitionOut = 'fade',
     this.isStartScene = false,
@@ -52,47 +52,42 @@ class Scene {
       isStartScene: isStartScene ?? this.isStartScene,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      metadata: metadata ?? Map.from(this.metadata),
+      metadata: metadata ?? this.metadata,
     );
   }
 
   List<Node> get allNodes {
-    final nodes = <Node>[];
+    final List<Node> nodes = [];
     void traverse(Node node) {
       nodes.add(node);
-      // Actual implementation would need to look up children from a node map
-      // For simplicity in this base model, we assume rootNode contains the whole tree structure
-      // in a real app, Scene might maintain a Map<NodeId, Node>
+      // Actual implementation would need to look up children by ID from a flat list or tree
+      // For now, assuming nodes are fully nested for simplicity, or we just return root
+      // In a real system, the Scene would hold a map of all nodes, and rootNode is just the ID or root
     }
-
     traverse(rootNode);
     return nodes;
   }
 
   Node? findNodeById(NodeId id) {
-    // simplified implementation
+    // Basic search
     if (rootNode.id == id) return rootNode;
     return null;
   }
 
   Scene replaceNode(NodeId id, Node newNode) {
-    // simplified
-    if (rootNode.id == id) {
-      return copyWith(rootNode: newNode);
-    }
-    return this;
+    return this; // Placeholder
   }
 
   Scene addChild(NodeId parentId, Node child, int? index) {
-    return this; // placeholder
+    return this; // Placeholder
   }
 
   Scene removeNode(NodeId id) {
-    return this; // placeholder
+    return this; // Placeholder
   }
 
   Scene moveNode(NodeId id, NodeId newParentId, int? index) {
-    return this; // placeholder
+    return this; // Placeholder
   }
 
   int get nodeCount => allNodes.length;

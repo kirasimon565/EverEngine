@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' hide Rect;
+import 'package:flutter/widgets.dart';
 import 'node_id.dart';
-import 'properties/property.dart';
 import 'properties/property_types.dart';
+import 'properties/property.dart';
 import 'node_registry.dart';
 
 class Rect {
@@ -38,7 +38,7 @@ class TriggerAction {
 
   const TriggerAction({
     required this.actionType,
-    required this.parameters,
+    this.parameters = const {},
   });
 
   Map<String, dynamic> toJson() => {
@@ -48,7 +48,7 @@ class TriggerAction {
 
   factory TriggerAction.fromJson(Map<String, dynamic> json) => TriggerAction(
         actionType: json['actionType'] as String,
-        parameters: json['parameters'] as Map<String, dynamic>,
+        parameters: json['parameters'] as Map<String, dynamic>? ?? {},
       );
 }
 
@@ -59,21 +59,22 @@ class Trigger {
 
   const Trigger({
     required this.eventType,
-    required this.actions,
+    this.actions = const [],
     this.conditions,
   });
 
   Map<String, dynamic> toJson() => {
         'eventType': eventType,
         'actions': actions.map((a) => a.toJson()).toList(),
-        if (conditions != null) 'conditions': conditions,
+        'conditions': conditions,
       };
 
   factory Trigger.fromJson(Map<String, dynamic> json) => Trigger(
         eventType: json['eventType'] as String,
-        actions: (json['actions'] as List)
-            .map((e) => TriggerAction.fromJson(e as Map<String, dynamic>))
-            .toList(),
+        actions: (json['actions'] as List?)
+                ?.map((e) => TriggerAction.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            [],
         conditions: json['conditions'] as Map<String, dynamic>?,
       );
 }
@@ -104,8 +105,12 @@ abstract class Node {
   });
 
   List<PropertyDefinition> get propertyDefinitions;
+
   Widget buildPreview(BuildContext context);
-  Widget buildEditor(BuildContext context);
+
+  Widget buildEditor(BuildContext context) {
+    return buildPreview(context); // Default is to just render the preview
+  }
 
   Node copyWith({
     NodeId? id,
@@ -124,8 +129,8 @@ abstract class Node {
       'id': id.toString(),
       'type': type,
       'properties': properties.map((k, v) => MapEntry(k, v.toJson())),
-      'childrenIds': childrenIds.map((id) => id.toString()).toList(),
-      if (parentId != null) 'parentId': parentId!.toString(),
+      'childrenIds': childrenIds.map((e) => e.toString()).toList(),
+      'parentId': parentId?.toString(),
       'triggers': triggers.map((k, v) => MapEntry(k, v.toJson())),
       'metadata': metadata,
       'bounds': bounds.toJson(),
@@ -135,9 +140,10 @@ abstract class Node {
   }
 
   bool canHaveChildren() => true;
+
   int get maxChildren => -1;
 
-  static Node fromJson(Map<String, dynamic> json) {
+  factory Node.fromJson(Map<String, dynamic> json) {
     final type = json['type'] as String;
     return NodeRegistry.create(type, json);
   }

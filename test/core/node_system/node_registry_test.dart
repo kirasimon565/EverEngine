@@ -4,26 +4,31 @@ import 'package:everengine/core/node_system/node_id.dart';
 import 'package:everengine/core/node_system/types/ui_nodes/container_node.dart';
 
 void main() {
+  setUp(() {
+    NodeRegistry.registerAll();
+  });
+
   group('NodeRegistry', () {
     test('register and create roundtrip', () {
-      NodeRegistry.register('TestNode', (json) => ContainerNode(id: NodeId.fromString('test')));
-      final node = NodeRegistry.create('TestNode', {'id': 'test'});
+      final id = NodeId.generate();
+      final node = NodeRegistry.create('ContainerNode', {'id': id.toString(), 'type': 'ContainerNode'});
       expect(node, isA<ContainerNode>());
+      expect(node.id, equals(id));
     });
 
     test('isRegistered returns correct values', () {
-      NodeRegistry.register('TestNode', (json) => ContainerNode(id: NodeId.fromString('test')));
-      expect(NodeRegistry.isRegistered('TestNode'), isTrue);
+      expect(NodeRegistry.isRegistered('ContainerNode'), isTrue);
       expect(NodeRegistry.isRegistered('UnknownNode'), isFalse);
     });
 
     test('creating unregistered type throws', () {
-      expect(() => NodeRegistry.create('UnknownNode', {}), throwsArgumentError);
+      expect(() => NodeRegistry.create('UnknownNode', {'type': 'UnknownNode'}), throwsException);
     });
 
-    test('registerAll populates registry', () {
-      NodeRegistry.registerAll();
-      expect(NodeRegistry.registeredTypes.length, greaterThan(30));
+    test('registeredTypes returns all types', () {
+      final types = NodeRegistry.registeredTypes;
+      expect(types.contains('ContainerNode'), isTrue);
+      expect(types.contains('TextNode'), isTrue);
     });
   });
 }

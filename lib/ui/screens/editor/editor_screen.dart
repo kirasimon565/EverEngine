@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared_widgets/sidebar.dart';
 import 'top_toolbar/editor_toolbar.dart';
 import 'left_panel/node_palette.dart';
 import 'canvas/editor_canvas.dart';
 import 'right_panel/inspector_panel.dart';
-import 'bottom_panel/scene_tab_bar.dart';
-import 'code_editor/code_editor_view.dart';
-import 'node_graph/node_graph_view.dart';
-import '../../../../state/state.dart';
 
-class EditorScreen extends ConsumerWidget {
+class EditorScreen extends StatelessWidget {
   const EditorScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewMode = ref.watch(editorProvider).viewMode;
-
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
@@ -24,51 +17,43 @@ class EditorScreen extends ConsumerWidget {
           Expanded(
             child: Row(
               children: [
-                if (viewMode == EditorViewMode.design || viewMode == EditorViewMode.split)
-                  EESidebar(
-                    side: SidebarSide.left,
-                    width: 250,
+                EESidebar(
+                  side: SidebarSide.left,
+                  child: Container(
+                    color: Colors.grey[900],
                     child: const NodePalette(),
                   ),
+                ),
                 Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: _buildCenterView(viewMode),
-                      ),
-                      const SceneTabBar(),
-                    ],
+                  child: Container(
+                    color: Colors.black87,
+                    child: const EditorCanvas(),
                   ),
                 ),
-                if (viewMode == EditorViewMode.design || viewMode == EditorViewMode.split)
-                  EESidebar(
-                    side: SidebarSide.right,
-                    width: 300,
+                EESidebar(
+                  side: SidebarSide.right,
+                  child: Container(
+                    color: Colors.grey[900],
                     child: const InspectorPanel(),
                   ),
+                ),
               ],
             ),
           ),
+          Container(
+            height: 36,
+            color: Colors.grey[850],
+            child: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('Scene Tabs'),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
-  }
-
-  Widget _buildCenterView(EditorViewMode viewMode) {
-    switch (viewMode) {
-      case EditorViewMode.design:
-        // Mocking graph view toggling manually for the exercise scope.
-        // It could swap between EditorCanvas and NodeGraphView
-        return const EditorCanvas();
-      case EditorViewMode.code:
-        return const CodeEditorView();
-      case EditorViewMode.split:
-        return Row(
-          children: const [
-             Expanded(child: EditorCanvas()),
-             Expanded(child: CodeEditorView()),
-          ]
-        );
-    }
   }
 }

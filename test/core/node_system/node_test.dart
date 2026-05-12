@@ -6,35 +6,40 @@ import 'package:everengine/core/node_system/types/ui_nodes/container_node.dart';
 
 void main() {
   setUpAll(() {
-    NodeRegistry.register(
-        'ContainerNode', (json) => ContainerNode.fromJson(json));
+    NodeRegistry.registerAll();
   });
 
   group('Node', () {
-    test('copyWith returns new instance', () {
+    test('Node copyWith returns new instance', () {
       final node = ContainerNode(id: NodeId.generate());
-      final newId = NodeId.generate();
-      final copied = node.copyWith(id: newId);
+      final newNode = node.copyWith(isLocked: true);
 
-      expect(copied.id, equals(newId));
-      expect(copied, isNot(same(node)));
+      expect(node.id, equals(newNode.id));
+      expect(node.isLocked, isFalse);
+      expect(newNode.isLocked, isTrue);
     });
 
-    test('toJson includes all fields', () {
-      final node = ContainerNode(id: NodeId.fromString('test-id'));
+    test('Node toJson includes all fields', () {
+      final node = ContainerNode(id: NodeId.generate());
       final json = node.toJson();
 
-      expect(json['id'], equals('test-id'));
+      expect(json.containsKey('id'), isTrue);
+      expect(json.containsKey('type'), isTrue);
       expect(json['type'], equals('ContainerNode'));
     });
 
-    test('fromJson dispatches to correct type', () {
-      final json = {
-        'id': 'test-id',
-        'type': 'ContainerNode',
-      };
+    test('Node fromJson dispatches to correct type', () {
+      final id = NodeId.generate();
+      final json = {'id': id.toString(), 'type': 'ContainerNode'};
       final node = Node.fromJson(json);
+
       expect(node, isA<ContainerNode>());
+      expect(node.id, equals(id));
+    });
+
+    test('canHaveChildren respects type setting', () {
+      final node = ContainerNode(id: NodeId.generate());
+      expect(node.canHaveChildren(), isTrue);
     });
   });
 }

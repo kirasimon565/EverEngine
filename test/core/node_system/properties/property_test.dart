@@ -4,28 +4,38 @@ import 'package:everengine/core/node_system/properties/property_types.dart';
 
 void main() {
   group('PropertyDefinition', () {
-    test('validator returns error for invalid value', () {
-      final propDef = PropertyDefinition(
+    test('PropertyDefinition with validators', () {
+      final def = PropertyDefinition(
         name: 'test',
-        type: PropertyType.integer,
-        defaultValue: 0,
+        type: PropertyType.string,
         displayName: 'Test',
-        validators: [(value) => value < 0 ? 'Cannot be negative' : null],
+        validators: [(v) => v == 'invalid' ? 'Error' : null],
       );
 
-      expect(propDef.validators.first(-1), equals('Cannot be negative'));
+      expect(def.validate('valid'), isNull);
+      expect(def.validate('invalid'), equals('Error'));
+    });
+
+    test('validator returns error for invalid value', () {
+      final def = PropertyDefinition(
+        name: 'test',
+        type: PropertyType.string,
+        displayName: 'Test',
+        isRequired: true,
+      );
+
+      expect(def.validate(null), equals('Test is required'));
     });
 
     test('validator returns null for valid value', () {
-      final propDef = PropertyDefinition(
+      final def = PropertyDefinition(
         name: 'test',
-        type: PropertyType.integer,
-        defaultValue: 0,
+        type: PropertyType.string,
         displayName: 'Test',
-        validators: [(value) => value < 0 ? 'Cannot be negative' : null],
+        isRequired: true,
       );
 
-      expect(propDef.validators.first(1), isNull);
+      expect(def.validate('some value'), isNull);
     });
   });
 }

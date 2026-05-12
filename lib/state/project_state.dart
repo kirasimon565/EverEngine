@@ -23,8 +23,7 @@ class ProjectState {
   }) {
     return ProjectState(
       recentProjects: recentProjects ?? this.recentProjects,
-      currentProject:
-          clearCurrentProject ? null : (currentProject ?? this.currentProject),
+      currentProject: clearCurrentProject ? null : (currentProject ?? this.currentProject),
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -36,38 +35,31 @@ class ProjectNotifier extends StateNotifier<ProjectState> {
 
   Future<void> loadRecentProjects() async {
     state = state.copyWith(isLoading: true);
-    // Placeholder for actual load
+    // Fetch logic mock
     state = state.copyWith(isLoading: false, recentProjects: []);
   }
 
   Future<void> createProject(Project project) async {
-    state = state.copyWith(
-      currentProject: project,
-      recentProjects: [project, ...state.recentProjects],
-    );
+    state = state.copyWith(isLoading: true);
+    final projects = List<Project>.from(state.recentProjects)..add(project);
+    state = state.copyWith(isLoading: false, recentProjects: projects, currentProject: project);
   }
 
   Future<void> openProject(String dir) async {
-    // Placeholder
+    // Open project mock
   }
 
   Future<void> closeProject() async {
-    state = state.copyWith(currentProject: null, clearCurrentProject: true);
+    state = state.copyWith(clearCurrentProject: true);
   }
 
   Future<void> deleteProject(Project project) async {
-    state = state.copyWith(
-      recentProjects: state.recentProjects
-          .where((p) => p.projectDir != project.projectDir)
-          .toList(),
-    );
-    if (state.currentProject?.projectDir == project.projectDir) {
-      await closeProject();
-    }
+    state = state.copyWith(isLoading: true);
+    final projects = List<Project>.from(state.recentProjects)..removeWhere((p) => p.name == project.name);
+    state = state.copyWith(isLoading: false, recentProjects: projects);
   }
 }
 
-final projectProvider =
-    StateNotifierProvider<ProjectNotifier, ProjectState>((ref) {
+final projectProvider = StateNotifierProvider<ProjectNotifier, ProjectState>((ref) {
   return ProjectNotifier();
 });

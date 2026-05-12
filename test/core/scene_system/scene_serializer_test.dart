@@ -7,26 +7,41 @@ import 'package:everengine/core/node_system/types/ui_nodes/container_node.dart';
 
 void main() {
   setUpAll(() {
-    NodeRegistry.register(
-        'ContainerNode', (json) => ContainerNode.fromJson(json));
+    NodeRegistry.registerAll();
   });
 
   group('SceneSerializer', () {
     test('serialize and deserialize scene roundtrip', () {
-      final rootNode = ContainerNode(id: NodeId.fromString('root-id'));
+      final root = ContainerNode(id: NodeId.generate());
       final scene = Scene(
         name: 'test_scene',
         displayName: 'Test Scene',
-        rootNode: rootNode,
-        createdAt: DateTime(2023),
-        updatedAt: DateTime(2023),
+        rootNode: root,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
 
       final json = SceneSerializer.serialize(scene);
       final deserialized = SceneSerializer.deserialize(json);
 
-      expect(deserialized.name, equals('test_scene'));
-      expect(deserialized.rootNode.id.toString(), equals('root-id'));
+      expect(deserialized.name, equals(scene.name));
+      expect(deserialized.rootNode.id, equals(scene.rootNode.id));
+    });
+
+    test('deserialized scene has same node count', () {
+      final root = ContainerNode(id: NodeId.generate());
+      final scene = Scene(
+        name: 'test_scene',
+        displayName: 'Test Scene',
+        rootNode: root,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      final json = SceneSerializer.serialize(scene);
+      final deserialized = SceneSerializer.deserialize(json);
+
+      expect(deserialized.allNodes.length, equals(scene.allNodes.length));
     });
   });
 }

@@ -9,8 +9,7 @@ class SceneSerializer {
       'name': scene.name,
       'displayName': scene.displayName,
       'rootNode': NodeSerializer.serializeTree(scene.rootNode),
-      if (scene.backgroundColor != null)
-        'backgroundColor': scene.backgroundColor,
+      'backgroundColor': scene.backgroundColor,
       'orientation': scene.orientation,
       'transitionIn': scene.transitionIn,
       'transitionOut': scene.transitionOut,
@@ -25,18 +24,17 @@ class SceneSerializer {
     return Scene(
       name: json['name'] as String,
       displayName: json['displayName'] as String,
-      rootNode: NodeSerializer.deserializeTree(
-          json['rootNode'] as Map<String, dynamic>),
+      rootNode: NodeSerializer.deserializeTree(json['rootNode'] as Map<String, dynamic>),
       backgroundColor: json['backgroundColor'] as String?,
-      orientation: json['orientation'] as String? ?? 'auto',
+      orientation: json['orientation'] as String? ?? 'portrait',
       transitionIn: json['transitionIn'] as String? ?? 'fade',
       transitionOut: json['transitionOut'] as String? ?? 'fade',
       isStartScene: json['isStartScene'] as bool? ?? false,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      metadata: (json['metadata'] as Map<String, dynamic>?)
-              ?.map((k, v) => MapEntry(k, v.toString())) ??
-          {},
+      metadata: (json['metadata'] as Map<String, dynamic>? ?? {}).map(
+        (k, v) => MapEntry(k, v as String),
+      ),
     );
   }
 
@@ -49,7 +47,7 @@ class SceneSerializer {
   static Future<Scene> loadFromFile(String path) async {
     final file = File(path);
     final jsonString = await file.readAsString();
-    final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
-    return deserialize(jsonData);
+    final jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
+    return deserialize(jsonMap);
   }
 }

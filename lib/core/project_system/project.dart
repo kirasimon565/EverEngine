@@ -1,5 +1,3 @@
-import 'package:path/path.dart' as p;
-
 class Project {
   final String name;
   final String packageName;
@@ -17,11 +15,11 @@ class Project {
   const Project({
     required this.name,
     required this.packageName,
-    this.version = '1.0.0',
+    this.version = "1.0.0",
     this.versionCode = 1,
-    this.orientation = 'auto',
-    this.template = 'blank',
-    this.engineVersion = '1.0.0',
+    this.orientation = "portrait",
+    this.template = "blank",
+    required this.engineVersion,
     required this.createdAt,
     required this.updatedAt,
     required this.projectDir,
@@ -29,14 +27,13 @@ class Project {
     this.metadata = const {},
   });
 
-  String get scenesDir => p.join(projectDir, 'scenes');
-  String get assetsDir => p.join(projectDir, 'assets');
-  String get variablesFile => p.join(projectDir, 'variables', 'vars.json');
-  String get charactersFile =>
-      p.join(projectDir, 'characters', 'characters.json');
-  String get scriptsDir => p.join(projectDir, 'scripts');
-  String get exportProfilesDir => p.join(projectDir, 'export_profiles');
-  String get exportsDir => p.join(projectDir, 'exports');
+  String get scenesDir => "$projectDir/scenes/";
+  String get assetsDir => "$projectDir/assets/";
+  String get variablesFile => "$projectDir/variables/vars.json";
+  String get charactersFile => "$projectDir/characters.json";
+  String get scriptsDir => "$projectDir/scripts/";
+  String get exportProfilesDir => "$projectDir/export_profiles/";
+  String get exportsDir => "$projectDir/exports/";
 
   Project copyWith({
     String? name,
@@ -63,8 +60,8 @@ class Project {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       projectDir: projectDir ?? this.projectDir,
-      sceneOrder: sceneOrder ?? List.from(this.sceneOrder),
-      metadata: metadata ?? Map.from(this.metadata),
+      sceneOrder: sceneOrder ?? this.sceneOrder,
+      metadata: metadata ?? this.metadata,
     );
   }
 }

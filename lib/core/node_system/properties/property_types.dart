@@ -34,7 +34,7 @@ class PropertyValue {
       'value': value,
       'type': type.name,
       'isBound': isBound,
-      if (boundVariableName != null) 'boundVariableName': boundVariableName,
+      'boundVariableName': boundVariableName,
     };
   }
 
@@ -52,13 +52,15 @@ class EnumOption {
   final String value;
   final String label;
 
-  const EnumOption({required this.value, required this.label});
+  const EnumOption({
+    required this.value,
+    required this.label,
+  });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is EnumOption && other.value == value && other.label == label;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EnumOption && runtimeType == other.runtimeType && value == other.value && label == other.label;
 
   @override
   int get hashCode => value.hashCode ^ label.hashCode;

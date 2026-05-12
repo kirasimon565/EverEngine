@@ -28,8 +28,8 @@ class PropertyDefinition {
   const PropertyDefinition({
     required this.name,
     required this.type,
-    required this.defaultValue,
     required this.displayName,
+    this.defaultValue,
     this.description,
     this.isRequired = false,
     this.enumOptions,
@@ -40,4 +40,26 @@ class PropertyDefinition {
     this.section,
     this.displayOrder,
   });
+
+  String? validate(dynamic value) {
+    if (isRequired && value == null) {
+      return '$displayName is required';
+    }
+
+    if (value != null) {
+      if (validationRegex != null && value is String) {
+        if (!RegExp(validationRegex!).hasMatch(value)) {
+          return '$displayName format is invalid';
+        }
+      }
+
+      for (final validator in validators) {
+        final error = validator(value);
+        if (error != null) {
+          return error;
+        }
+      }
+    }
+    return null;
+  }
 }

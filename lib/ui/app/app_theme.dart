@@ -9,8 +9,7 @@ class AppTheme {
   static const Color successColor = Color(0xFF4CAF50);
 
   static ThemeData get darkTheme {
-    return ThemeData(
-      brightness: Brightness.dark,
+    return ThemeData.dark().copyWith(
       primaryColor: primaryColor,
       scaffoldBackgroundColor: canvasColor,
       colorScheme: const ColorScheme.dark(
@@ -19,28 +18,13 @@ class AppTheme {
         surface: surfaceColor,
         error: errorColor,
       ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: surfaceColor,
-        elevation: 0,
-      ),
       cardTheme: const CardTheme(
         color: surfaceColor,
-        elevation: 2,
       ),
     );
   }
 
   static ThemeData get lightTheme {
-    return ThemeData(
-      brightness: Brightness.light,
-      primaryColor: primaryColor,
-      scaffoldBackgroundColor: const Color(0xFFF5F5F5),
-      colorScheme: const ColorScheme.light(
-        primary: primaryColor,
-        secondary: accentColor,
-        surface: Colors.white,
-        error: Color(0xFFB00020),
-      ),
-    );
+    return ThemeData.light(); // Placeholder for light theme
   }
 }
