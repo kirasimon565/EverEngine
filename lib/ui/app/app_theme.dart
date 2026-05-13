@@ -18,7 +18,7 @@ class AppTheme {
         surface: surfaceColor,
         error: errorColor,
       ),
-      cardTheme: const CardTheme(
+      cardTheme: const CardThemeData(
         color: surfaceColor,
       ),
     );
