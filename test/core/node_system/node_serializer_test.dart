@@ -30,17 +30,16 @@ void main() {
     });
 
     test('handles nodes with triggers', () {
-      final node = ContainerNode(
-        id: NodeId.generate(),
-        triggers: {
-          'tap': const Trigger(eventType: 'onTap', actions: [TriggerAction(actionType: 'log')])
-        }
-      );
+      final node = ContainerNode(id: NodeId.generate(), triggers: {
+        'tap': const Trigger(
+            eventType: 'onTap', actions: [TriggerAction(actionType: 'log')])
+      });
       final json = NodeSerializer.serialize(node);
       final deserialized = NodeSerializer.deserialize(json);
 
       expect(deserialized.triggers.containsKey('tap'), isTrue);
-      expect(deserialized.triggers['tap']!.actions.first.actionType, equals('log'));
+      expect(deserialized.triggers['tap']!.actions.first.actionType,
+          equals('log'));
     });
   });
 }

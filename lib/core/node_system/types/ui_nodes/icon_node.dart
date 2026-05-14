@@ -9,26 +9,17 @@ class IconNode extends Node {
   static const String typeString = 'IconNode';
 
   IconNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 48, height: 48),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 48, height: 48),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory IconNode.fromJson(Map<String, dynamic> json) {
@@ -36,16 +27,25 @@ class IconNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 48, height: 48),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 48, height: 48),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -53,9 +53,21 @@ class IconNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'iconName', type: PropertyType.string, defaultValue: 'star', displayName: 'Icon'),
-        const PropertyDefinition(name: 'size', type: PropertyType.double_, defaultValue: 24.0, displayName: 'Size'),
-        const PropertyDefinition(name: 'color', type: PropertyType.color, defaultValue: '#000000', displayName: 'Color'),
+        const PropertyDefinition(
+            name: 'iconName',
+            type: PropertyType.string,
+            defaultValue: 'star',
+            displayName: 'Icon'),
+        const PropertyDefinition(
+            name: 'size',
+            type: PropertyType.double_,
+            defaultValue: 24.0,
+            displayName: 'Size'),
+        const PropertyDefinition(
+            name: 'color',
+            type: PropertyType.color,
+            defaultValue: '#000000',
+            displayName: 'Color'),
       ];
 
   @override
@@ -66,8 +78,9 @@ class IconNode extends Node {
 
     // Simplistic mapping for demo purposes.
     IconData iconData = Icons.star;
-    if (iconName == 'home') iconData = Icons.home;
-    else if (iconName == 'settings') iconData = Icons.settings;
+    if (iconName == 'home') {
+      iconData = Icons.home;
+    } else if (iconName == 'settings') iconData = Icons.settings;
 
     return Icon(
       iconData,

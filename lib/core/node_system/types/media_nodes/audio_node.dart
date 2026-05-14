@@ -8,26 +8,17 @@ class AudioNode extends Node {
   static const String typeString = 'AudioNode';
 
   AudioNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 100, height: 60),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 100, height: 60),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory AudioNode.fromJson(Map<String, dynamic> json) {

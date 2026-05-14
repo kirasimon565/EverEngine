@@ -11,7 +11,8 @@ void main() {
   group('NodeRegistry', () {
     test('register and create roundtrip', () {
       final id = NodeId.generate();
-      final node = NodeRegistry.create('ContainerNode', {'id': id.toString(), 'type': 'ContainerNode'});
+      final node = NodeRegistry.create(
+          'ContainerNode', {'id': id.toString(), 'type': 'ContainerNode'});
       expect(node, isA<ContainerNode>());
       expect(node.id, equals(id));
     });
@@ -22,7 +23,8 @@ void main() {
     });
 
     test('creating unregistered type throws', () {
-      expect(() => NodeRegistry.create('UnknownNode', {'type': 'UnknownNode'}), throwsException);
+      expect(() => NodeRegistry.create('UnknownNode', {'type': 'UnknownNode'}),
+          throwsException);
     });
 
     test('registeredTypes returns all types', () {

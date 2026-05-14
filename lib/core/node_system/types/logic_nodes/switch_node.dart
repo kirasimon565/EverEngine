@@ -8,26 +8,17 @@ class SwitchNode extends Node {
   static const String typeString = 'SwitchNode';
 
   SwitchNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 250, height: 120),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 250, height: 120),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory SwitchNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class SwitchNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 250, height: 120),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 250, height: 120),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,21 +52,30 @@ class SwitchNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'variableName', type: PropertyType.string, defaultValue: '', displayName: 'Variable Name'),
+        const PropertyDefinition(
+            name: 'variableName',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Variable Name'),
         // In a real app, cases would be a complex property type like List<Map<String, String>>
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.deepPurple[300], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.deepPurple[300],
+          borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Switch: \${properties['variableName']?.value}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          Text("Switch: \${properties['variableName']?.value}",
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          const Text("Multiple Branches...", style: TextStyle(color: Colors.white70, fontSize: 12)),
+          const Text("Multiple Branches...",
+              style: TextStyle(color: Colors.white70, fontSize: 12)),
         ],
       ),
     );

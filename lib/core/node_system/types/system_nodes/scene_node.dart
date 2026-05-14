@@ -8,26 +8,17 @@ class SceneNode extends Node {
   static const String typeString = 'SceneNode';
 
   SceneNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 400, height: 800),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 400, height: 800),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory SceneNode.fromJson(Map<String, dynamic> json) {

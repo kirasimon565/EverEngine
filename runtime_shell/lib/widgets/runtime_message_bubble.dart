@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../lib/core/node_system/types/story_nodes/message_bubble_node.dart';
-import '../../../lib/core/utils/color_utils.dart';
+import 'package:everengine/core/node_system/types/story_nodes/message_bubble_node.dart';
+import 'package:everengine/core/utils/color_utils.dart';
 
 class RuntimeMessageBubble extends StatelessWidget {
   final MessageBubbleNode node;
@@ -10,7 +10,8 @@ class RuntimeMessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = node.properties['messageText']?.value as String? ?? 'Hello';
-    final colorHex = node.properties['bubbleColor']?.value as String? ?? '#2D2D44';
+    final colorHex =
+        node.properties['bubbleColor']?.value as String? ?? '#2D2D44';
 
     return Align(
       alignment: Alignment.centerLeft,

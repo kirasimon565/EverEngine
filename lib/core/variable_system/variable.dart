@@ -50,8 +50,9 @@ class Variable {
         if (value is Map) return value;
         return defaultValue;
       case VariableType.enum_:
-        if (enumValues?.contains(value.toString()) ?? false)
+        if (enumValues?.contains(value.toString()) ?? false) {
           return value.toString();
+        }
         return defaultValue;
     }
   }

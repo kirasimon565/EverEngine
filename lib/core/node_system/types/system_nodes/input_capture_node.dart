@@ -8,26 +8,17 @@ class InputCaptureNode extends Node {
   static const String typeString = 'InputCaptureNode';
 
   InputCaptureNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 250, height: 80),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 250, height: 80),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory InputCaptureNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class InputCaptureNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 250, height: 80),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 250, height: 80),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,19 +52,34 @@ class InputCaptureNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'captureType', type: PropertyType.string, defaultValue: 'text', displayName: 'Type'),
-        const PropertyDefinition(name: 'promptText', type: PropertyType.string, defaultValue: 'Enter text', displayName: 'Prompt'),
-        const PropertyDefinition(name: 'variableToSet', type: PropertyType.string, defaultValue: '', displayName: 'Variable to Set'),
+        const PropertyDefinition(
+            name: 'captureType',
+            type: PropertyType.string,
+            defaultValue: 'text',
+            displayName: 'Type'),
+        const PropertyDefinition(
+            name: 'promptText',
+            type: PropertyType.string,
+            defaultValue: 'Enter text',
+            displayName: 'Prompt'),
+        const PropertyDefinition(
+            name: 'variableToSet',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Variable to Set'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white12, borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.white12, borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          const Expanded(child: TextField(decoration: InputDecoration(hintText: "Input Capture"))),
+          const Expanded(
+              child: TextField(
+                  decoration: InputDecoration(hintText: "Input Capture"))),
           IconButton(icon: const Icon(Icons.send), onPressed: () {}),
         ],
       ),

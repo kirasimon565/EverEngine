@@ -30,7 +30,8 @@ class EEConfirmationDialog extends StatelessWidget {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: confirmColor ?? Theme.of(context).colorScheme.error,
+            backgroundColor:
+                confirmColor ?? Theme.of(context).colorScheme.error,
             foregroundColor: Colors.white,
           ),
           onPressed: () {
@@ -43,7 +44,8 @@ class EEConfirmationDialog extends StatelessWidget {
     );
   }
 
-  static Future<bool?> show(BuildContext context, {
+  static Future<bool?> show(
+    BuildContext context, {
     required String title,
     required String message,
     String confirmLabel = 'Confirm',

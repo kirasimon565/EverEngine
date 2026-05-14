@@ -8,7 +8,12 @@ void main() {
   group('HistoryNotifier', () {
     test('pushState adds to undo stack', () {
       final notifier = HistoryNotifier();
-      final scene = Scene(name: 's1', displayName: 'S1', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final scene = Scene(
+          name: 's1',
+          displayName: 'S1',
+          rootNode: ContainerNode(id: NodeId.generate()),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
 
       notifier.pushState(scene);
 
@@ -18,8 +23,18 @@ void main() {
 
     test('undo returns previous scene', () {
       final notifier = HistoryNotifier();
-      final scene1 = Scene(name: 's1', displayName: 'S1', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
-      final scene2 = Scene(name: 's2', displayName: 'S2', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final scene1 = Scene(
+          name: 's1',
+          displayName: 'S1',
+          rootNode: ContainerNode(id: NodeId.generate()),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
+      final scene2 = Scene(
+          name: 's2',
+          displayName: 'S2',
+          rootNode: ContainerNode(id: NodeId.generate()),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
 
       notifier.pushState(scene1);
       notifier.pushState(scene2);
@@ -33,8 +48,18 @@ void main() {
 
     test('redo returns next scene', () {
       final notifier = HistoryNotifier();
-      final scene1 = Scene(name: 's1', displayName: 'S1', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
-      final scene2 = Scene(name: 's2', displayName: 'S2', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final scene1 = Scene(
+          name: 's1',
+          displayName: 'S1',
+          rootNode: ContainerNode(id: NodeId.generate()),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
+      final scene2 = Scene(
+          name: 's2',
+          displayName: 'S2',
+          rootNode: ContainerNode(id: NodeId.generate()),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
 
       notifier.pushState(scene1);
       notifier.pushState(scene2);
@@ -54,7 +79,12 @@ void main() {
     test('stack capped at maxHistory', () {
       final notifier = HistoryNotifier();
       for (int i = 0; i < 105; i++) {
-        notifier.pushState(Scene(name: 's$i', displayName: 'S$i', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now()));
+        notifier.pushState(Scene(
+            name: 's$i',
+            displayName: 'S$i',
+            rootNode: ContainerNode(id: NodeId.generate()),
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now()));
       }
       expect(notifier.state.undoStack.length, equals(100));
     });

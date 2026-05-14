@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:archive/archive.dart';
 import 'package:archive/archive_io.dart';
 import 'project.dart';
 

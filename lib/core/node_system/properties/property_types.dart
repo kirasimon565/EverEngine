@@ -60,7 +60,10 @@ class EnumOption {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EnumOption && runtimeType == other.runtimeType && value == other.value && label == other.label;
+      other is EnumOption &&
+          runtimeType == other.runtimeType &&
+          value == other.value &&
+          label == other.label;
 
   @override
   int get hashCode => value.hashCode ^ label.hashCode;

@@ -8,26 +8,17 @@ class ScriptTriggerNode extends Node {
   static const String typeString = 'ScriptTriggerNode';
 
   ScriptTriggerNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 250, height: 120),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 250, height: 120),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory ScriptTriggerNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class ScriptTriggerNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 250, height: 120),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 250, height: 120),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,21 +52,32 @@ class ScriptTriggerNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'dartCodeSnippet', type: PropertyType.string, defaultValue: '', displayName: 'Dart Code'),
-        const PropertyDefinition(name: 'timeoutMs', type: PropertyType.integer, defaultValue: 5000, displayName: 'Timeout (ms)'),
+        const PropertyDefinition(
+            name: 'dartCodeSnippet',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Dart Code'),
+        const PropertyDefinition(
+            name: 'timeoutMs',
+            type: PropertyType.integer,
+            defaultValue: 5000,
+            displayName: 'Timeout (ms)'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.blue[900], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.blue[900], borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           Icon(Icons.code, color: Colors.white),
           SizedBox(height: 8),
-          Text("Custom Script", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          Text("Custom Script",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         ],
       ),
     );

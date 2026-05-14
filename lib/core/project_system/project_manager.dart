@@ -33,7 +33,8 @@ class ProjectManager {
     String template = 'blank',
     String orientation = 'portrait',
   }) async {
-    final projectDirName = name.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_').toLowerCase();
+    final projectDirName =
+        name.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_').toLowerCase();
     final projectDir = '${projectsRootDir.path}/$projectDirName';
 
     await FileUtils.ensureDirectory('$projectDir/scenes');
@@ -80,7 +81,8 @@ class ProjectManager {
   }
 
   Future<Project> duplicateProject(Project project, String newName) async {
-    final newDirName = newName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_').toLowerCase();
+    final newDirName =
+        newName.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_').toLowerCase();
     final newDir = '${projectsRootDir.path}/$newDirName';
 
     await FileUtils.copyDirectory(project.projectDir, newDir);
@@ -97,7 +99,8 @@ class ProjectManager {
   }
 
   Future<void> renameProject(Project project, String newName) async {
-    final updatedProject = project.copyWith(name: newName, updatedAt: DateTime.now());
+    final updatedProject =
+        project.copyWith(name: newName, updatedAt: DateTime.now());
     await ProjectSerializer.saveProjectFile(updatedProject);
   }
 

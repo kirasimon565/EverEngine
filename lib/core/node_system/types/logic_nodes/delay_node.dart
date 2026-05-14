@@ -8,26 +8,17 @@ class DelayNode extends Node {
   static const String typeString = 'DelayNode';
 
   DelayNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 120, height: 60),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 120, height: 60),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory DelayNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class DelayNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 120, height: 60),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 120, height: 60),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,13 +52,18 @@ class DelayNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'durationMs', type: PropertyType.integer, defaultValue: 1000, displayName: 'Duration (ms)'),
+        const PropertyDefinition(
+            name: 'durationMs',
+            type: PropertyType.integer,
+            defaultValue: 1000,
+            displayName: 'Duration (ms)'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.grey[600], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.grey[600], borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
       child: Center(
         child: Text(

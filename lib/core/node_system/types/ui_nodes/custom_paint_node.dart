@@ -8,26 +8,17 @@ class CustomPaintNode extends Node {
   static const String typeString = 'CustomPaintNode';
 
   CustomPaintNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 200, height: 200),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 200, height: 200),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory CustomPaintNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class CustomPaintNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 200, height: 200),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 200, height: 200),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,7 +52,11 @@ class CustomPaintNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'painterClass', type: PropertyType.string, defaultValue: 'DefaultPainter', displayName: 'Painter Class'),
+        const PropertyDefinition(
+            name: 'painterClass',
+            type: PropertyType.string,
+            defaultValue: 'DefaultPainter',
+            displayName: 'Painter Class'),
       ];
 
   @override
@@ -99,7 +103,8 @@ class _DemoPainter extends CustomPainter {
       ..color = Colors.redAccent
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), size.width / 4, paint);
+    canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2), size.width / 4, paint);
   }
 
   @override

@@ -8,26 +8,17 @@ class PluginNode extends Node {
   static const String typeString = 'PluginNode';
 
   PluginNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 200, height: 100),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 200, height: 100),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory PluginNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class PluginNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 200, height: 100),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 200, height: 100),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,20 +52,26 @@ class PluginNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'pluginId', type: PropertyType.string, defaultValue: '', displayName: 'Plugin ID'),
+        const PropertyDefinition(
+            name: 'pluginId',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Plugin ID'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.brown[600], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.brown[600], borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           Icon(Icons.extension, color: Colors.white),
           SizedBox(height: 4),
-          Text("Plugin Node", style: TextStyle(color: Colors.white, fontSize: 12)),
+          Text("Plugin Node",
+              style: TextStyle(color: Colors.white, fontSize: 12)),
         ],
       ),
     );

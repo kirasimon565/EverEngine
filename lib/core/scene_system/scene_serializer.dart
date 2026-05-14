@@ -24,7 +24,8 @@ class SceneSerializer {
     return Scene(
       name: json['name'] as String,
       displayName: json['displayName'] as String,
-      rootNode: NodeSerializer.deserializeTree(json['rootNode'] as Map<String, dynamic>),
+      rootNode: NodeSerializer.deserializeTree(
+          json['rootNode'] as Map<String, dynamic>),
       backgroundColor: json['backgroundColor'] as String?,
       orientation: json['orientation'] as String? ?? 'portrait',
       transitionIn: json['transitionIn'] as String? ?? 'fade',

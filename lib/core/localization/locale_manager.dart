@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:flutter/foundation.dart';
 
 class LocaleManager {
   static final Map<String, Map<String, String>> _translations = {

@@ -43,7 +43,8 @@ class RuntimeContext {
 }
 
 class RuntimeInterpreter {
-  Future<RuntimeState> executeNode(Node node, RuntimeContext context, RuntimeState state) async {
+  Future<RuntimeState> executeNode(
+      Node node, RuntimeContext context, RuntimeState state) async {
     // In a fully working interpreter, it walks the node graph executing custom logic depending on node properties/types.
     context.eventBus.emit(NodeDisplayedEvent(node.id.toString()));
 
@@ -51,11 +52,14 @@ class RuntimeInterpreter {
     if (node.triggers.isNotEmpty) {
       for (final trigger in node.triggers.values) {
         if (trigger.actions.isNotEmpty) {
-           for (final action in trigger.actions) {
-             if (action.actionType == 'setVariable' && action.parameters.containsKey('name') && action.parameters.containsKey('value')) {
-                state.variableStore.setValue(action.parameters['name'], action.parameters['value']);
-             }
-           }
+          for (final action in trigger.actions) {
+            if (action.actionType == 'setVariable' &&
+                action.parameters.containsKey('name') &&
+                action.parameters.containsKey('value')) {
+              state.variableStore.setValue(
+                  action.parameters['name'], action.parameters['value']);
+            }
+          }
         }
       }
     }
@@ -74,7 +78,8 @@ class RuntimeInterpreter {
     return updatedState;
   }
 
-  Future<RuntimeState> executeScene(Scene scene, RuntimeContext context, RuntimeState state) async {
+  Future<RuntimeState> executeScene(
+      Scene scene, RuntimeContext context, RuntimeState state) async {
     return executeNode(scene.rootNode, context, state);
   }
 }

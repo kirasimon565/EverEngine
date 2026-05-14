@@ -25,7 +25,11 @@ class EEEmptyState extends StatelessWidget {
           Text(title, style: Theme.of(context).textTheme.titleLarge),
           if (subtitle != null) ...[
             const SizedBox(height: 8),
-            Text(subtitle!, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey)),
+            Text(subtitle!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Colors.grey)),
           ],
           if (action != null) ...[
             const SizedBox(height: 24),

@@ -16,7 +16,8 @@ void main() {
       expect(json['type'], equals('ContainerNode'));
     });
 
-    testWidgets('ContainerNode buildPreview returns a Container', (WidgetTester tester) async {
+    testWidgets('ContainerNode buildPreview returns a Container',
+        (WidgetTester tester) async {
       final node = ContainerNode(id: NodeId.generate());
       await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,

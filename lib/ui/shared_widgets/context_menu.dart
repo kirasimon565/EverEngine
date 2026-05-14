@@ -47,7 +47,8 @@ class EEContextMenu extends StatelessWidget {
             return ListTile(
               leading: item.icon != null ? Icon(item.icon) : null,
               title: Text(item.label),
-              trailing: item.shortcutText != null ? Text(item.shortcutText!) : null,
+              trailing:
+                  item.shortcutText != null ? Text(item.shortcutText!) : null,
               onTap: () {
                 if (item.onTap != null) item.onTap!();
                 onDismiss();

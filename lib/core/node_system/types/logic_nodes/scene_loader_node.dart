@@ -8,26 +8,17 @@ class SceneLoaderNode extends Node {
   static const String typeString = 'SceneLoaderNode';
 
   SceneLoaderNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 250, height: 80),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 250, height: 80),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory SceneLoaderNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class SceneLoaderNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 250, height: 80),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 250, height: 80),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,21 +52,32 @@ class SceneLoaderNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'sceneName', type: PropertyType.string, defaultValue: '', displayName: 'Scene Name'),
-        const PropertyDefinition(name: 'transition', type: PropertyType.string, defaultValue: 'fade', displayName: 'Transition'),
+        const PropertyDefinition(
+            name: 'sceneName',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Scene Name'),
+        const PropertyDefinition(
+            name: 'transition',
+            type: PropertyType.string,
+            defaultValue: 'fade',
+            displayName: 'Transition'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.blue[600], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.blue[600], borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.login, color: Colors.white),
           const SizedBox(width: 8),
-          Text("Load: \${properties['sceneName']?.value}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          Text("Load: \${properties['sceneName']?.value}",
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold)),
         ],
       ),
     );

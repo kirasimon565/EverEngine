@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../lib/core/node_system/types/ui_nodes/text_node.dart';
-import '../../../lib/core/utils/color_utils.dart';
+import 'package:everengine/core/node_system/types/ui_nodes/text_node.dart';
+import 'package:everengine/core/utils/color_utils.dart';
 
 class RuntimeText extends StatelessWidget {
   final TextNode node;

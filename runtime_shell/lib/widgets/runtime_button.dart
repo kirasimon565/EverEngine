@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../lib/core/node_system/types/ui_nodes/button_node.dart';
-import '../../../lib/core/utils/color_utils.dart';
+import 'package:everengine/core/node_system/types/ui_nodes/button_node.dart';
+import 'package:everengine/core/utils/color_utils.dart';
 
 class RuntimeButton extends StatelessWidget {
   final ButtonNode node;
@@ -10,8 +10,10 @@ class RuntimeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = node.properties['label']?.value as String? ?? 'Button';
-    final bgColorHex = node.properties['backgroundColor']?.value as String? ?? '#2196F3';
-    final textColorHex = node.properties['textColor']?.value as String? ?? '#FFFFFF';
+    final bgColorHex =
+        node.properties['backgroundColor']?.value as String? ?? '#2196F3';
+    final textColorHex =
+        node.properties['textColor']?.value as String? ?? '#FFFFFF';
 
     return ElevatedButton(
       onPressed: () {
