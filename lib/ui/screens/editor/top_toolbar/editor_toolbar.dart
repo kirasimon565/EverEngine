@@ -17,7 +17,8 @@ class EditorToolbar extends StatelessWidget {
         ),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text('Project Name', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: Text('Project Name',
+              style: TextStyle(fontWeight: FontWeight.bold)),
         ),
       ],
       title: const ModeSwitcher(),

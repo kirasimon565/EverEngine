@@ -23,7 +23,8 @@ class ProjectState {
   }) {
     return ProjectState(
       recentProjects: recentProjects ?? this.recentProjects,
-      currentProject: clearCurrentProject ? null : (currentProject ?? this.currentProject),
+      currentProject:
+          clearCurrentProject ? null : (currentProject ?? this.currentProject),
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -42,7 +43,8 @@ class ProjectNotifier extends StateNotifier<ProjectState> {
   Future<void> createProject(Project project) async {
     state = state.copyWith(isLoading: true);
     final projects = List<Project>.from(state.recentProjects)..add(project);
-    state = state.copyWith(isLoading: false, recentProjects: projects, currentProject: project);
+    state = state.copyWith(
+        isLoading: false, recentProjects: projects, currentProject: project);
   }
 
   Future<void> openProject(String dir) async {
@@ -55,11 +57,13 @@ class ProjectNotifier extends StateNotifier<ProjectState> {
 
   Future<void> deleteProject(Project project) async {
     state = state.copyWith(isLoading: true);
-    final projects = List<Project>.from(state.recentProjects)..removeWhere((p) => p.name == project.name);
+    final projects = List<Project>.from(state.recentProjects)
+      ..removeWhere((p) => p.name == project.name);
     state = state.copyWith(isLoading: false, recentProjects: projects);
   }
 }
 
-final projectProvider = StateNotifierProvider<ProjectNotifier, ProjectState>((ref) {
+final projectProvider =
+    StateNotifierProvider<ProjectNotifier, ProjectState>((ref) {
   return ProjectNotifier();
 });

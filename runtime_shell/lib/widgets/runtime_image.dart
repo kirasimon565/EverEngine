@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../lib/core/node_system/types/ui_nodes/image_node.dart';
+import 'package:everengine/core/node_system/types/ui_nodes/image_node.dart';
 
 class RuntimeImage extends StatelessWidget {
   final ImageNode node;
@@ -13,12 +13,12 @@ class RuntimeImage extends StatelessWidget {
     final source = node.properties['source']?.value as String? ?? '';
 
     if (source.isNotEmpty) {
-       return Image.asset(
-          'assets/project_assets/$source',
-          width: width,
-          height: height,
-          errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.error)),
-       );
+      return Image.asset(
+        'assets/project_assets/$source',
+        width: width,
+        height: height,
+        errorBuilder: (_, __, ___) => const Center(child: Icon(Icons.error)),
+      );
     }
     return Container(
       width: width,

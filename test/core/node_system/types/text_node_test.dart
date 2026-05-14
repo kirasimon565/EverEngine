@@ -12,17 +12,16 @@ void main() {
     });
 
     test('TextNode serializes content correctly', () {
-      final node = TextNode(
-        id: NodeId.generate(),
-        properties: {
-          'content': const PropertyValue(value: 'Hello', type: PropertyType.string)
-        }
-      );
+      final node = TextNode(id: NodeId.generate(), properties: {
+        'content':
+            const PropertyValue(value: 'Hello', type: PropertyType.string)
+      });
       final json = node.toJson();
       expect(json['properties']['content']['value'], equals('Hello'));
     });
 
-    testWidgets('TextNode buildPreview returns a Text widget', (WidgetTester tester) async {
+    testWidgets('TextNode buildPreview returns a Text widget',
+        (WidgetTester tester) async {
       final node = TextNode(id: NodeId.generate());
       await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,

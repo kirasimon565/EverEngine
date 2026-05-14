@@ -40,7 +40,9 @@ class ProjectHubScreen extends ConsumerWidget {
             const SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text('Recent Projects', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                child: Text('Recent Projects',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ),
             ),
             if (projectState.recentProjects.isEmpty)
@@ -52,7 +54,8 @@ class ProjectHubScreen extends ConsumerWidget {
                       children: const [
                         Icon(Icons.folder_open, size: 64, color: Colors.grey),
                         SizedBox(height: 16),
-                        Text('Create your first game', style: TextStyle(color: Colors.grey)),
+                        Text('Create your first game',
+                            style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                   ),
@@ -77,7 +80,9 @@ class ProjectHubScreen extends ConsumerWidget {
             const SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text('Start New', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                child: Text('Start New',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ),
             ),
             SliverPadding(

@@ -9,7 +9,8 @@ class InspectorPanel extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text('Inspector', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          child: Text('Inspector',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
         const Expanded(
           child: Center(child: Text('No node selected')),

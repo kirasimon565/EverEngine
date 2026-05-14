@@ -51,9 +51,8 @@ class CloudSyncService {
     return [];
   }
 
-  Future<void> resolveConflict(SyncConflict conflict, Resolution resolution) async {
-
-  }
+  Future<void> resolveConflict(
+      SyncConflict conflict, Resolution resolution) async {}
 
   Future<DateTime?> getLastSyncTime(Project project) async {
     return null;

@@ -13,7 +13,8 @@ class ExportWizardScreen extends StatelessWidget {
           children: [
             const Icon(Icons.build, size: 64, color: Colors.blue),
             const SizedBox(height: 16),
-            const Text('Export Options', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const Text('Export Options',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {},

@@ -3,7 +3,9 @@ import '../utils/id_generator.dart';
 class NodeId {
   final String id;
 
-  const NodeId() : id = '00000000-0000-0000-0000-000000000000'; // Default, use generate for real IDs
+  const NodeId()
+      : id =
+            '00000000-0000-0000-0000-000000000000'; // Default, use generate for real IDs
   const NodeId._(this.id);
 
   factory NodeId.fromString(String id) {

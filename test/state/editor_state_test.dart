@@ -8,7 +8,12 @@ void main() {
   group('EditorNotifier', () {
     test('setActiveScene updates state', () {
       final notifier = EditorNotifier();
-      final scene = Scene(name: 's1', displayName: 'S1', rootNode: ContainerNode(id: NodeId.generate()), createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final scene = Scene(
+          name: 's1',
+          displayName: 'S1',
+          rootNode: ContainerNode(id: NodeId.generate()),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
 
       notifier.setActiveScene(scene);
 

@@ -9,42 +9,38 @@ class ButtonNode extends Node {
   static const String typeString = "ButtonNode";
 
   ButtonNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 100, height: 40),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 100, height: 40),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory ButtonNode.fromJson(Map<String, dynamic> json) {
     return ButtonNode(
       id: NodeId.fromString(json['id'] as String),
       properties: (json['properties'] as Map<String, dynamic>? ?? {}).map(
-          (k, v) => MapEntry(k, PropertyValue.fromJson(v as Map<String, dynamic>))),
+          (k, v) =>
+              MapEntry(k, PropertyValue.fromJson(v as Map<String, dynamic>))),
       childrenIds: (json['childrenIds'] as List<dynamic>? ?? [])
           .map((e) => NodeId.fromString(e as String))
           .toList(),
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId'] as String) : null,
+      parentId: json['parentId'] != null
+          ? NodeId.fromString(json['parentId'] as String)
+          : null,
       triggers: (json['triggers'] as Map<String, dynamic>? ?? {}).map(
           (k, v) => MapEntry(k, Trigger.fromJson(v as Map<String, dynamic>))),
-      metadata: (json['metadata'] as Map<String, dynamic>? ?? {}).map(
-          (k, v) => MapEntry(k, v as String)),
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds'] as Map<String, dynamic>) : const Rect(x: 0, y: 0, width: 100, height: 40),
+      metadata: (json['metadata'] as Map<String, dynamic>? ?? {})
+          .map((k, v) => MapEntry(k, v as String)),
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'] as Map<String, dynamic>)
+          : const Rect(x: 0, y: 0, width: 100, height: 40),
       isLocked: json['isLocked'] as bool? ?? false,
       isVisible: json['isVisible'] as bool? ?? true,
     );
@@ -52,15 +48,28 @@ class ButtonNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        PropertyDefinition(name: 'label', type: PropertyType.string, displayName: 'Label', defaultValue: 'Button'),
-        PropertyDefinition(name: 'backgroundColor', type: PropertyType.color, displayName: 'Background Color', defaultValue: '#2196F3'),
-        PropertyDefinition(name: 'textColor', type: PropertyType.color, displayName: 'Text Color', defaultValue: '#FFFFFF'),
+        PropertyDefinition(
+            name: 'label',
+            type: PropertyType.string,
+            displayName: 'Label',
+            defaultValue: 'Button'),
+        PropertyDefinition(
+            name: 'backgroundColor',
+            type: PropertyType.color,
+            displayName: 'Background Color',
+            defaultValue: '#2196F3'),
+        PropertyDefinition(
+            name: 'textColor',
+            type: PropertyType.color,
+            displayName: 'Text Color',
+            defaultValue: '#FFFFFF'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     final label = properties['label']?.value as String? ?? 'Button';
-    final bgColorHex = properties['backgroundColor']?.value as String? ?? '#2196F3';
+    final bgColorHex =
+        properties['backgroundColor']?.value as String? ?? '#2196F3';
     final textColorHex = properties['textColor']?.value as String? ?? '#FFFFFF';
 
     return ElevatedButton(

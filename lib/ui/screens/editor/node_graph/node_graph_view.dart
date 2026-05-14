@@ -12,7 +12,9 @@ class NodeGraphView extends StatelessWidget {
           Container(
             color: Colors.blueGrey[900], // Placeholder background
           ),
-          const Center(child: Text('Node Graph UI', style: TextStyle(color: Colors.white))),
+          const Center(
+              child:
+                  Text('Node Graph UI', style: TextStyle(color: Colors.white))),
         ],
       ),
     );

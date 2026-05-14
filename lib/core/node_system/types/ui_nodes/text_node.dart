@@ -9,42 +9,38 @@ class TextNode extends Node {
   static const String typeString = "TextNode";
 
   TextNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 100, height: 100),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds,
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory TextNode.fromJson(Map<String, dynamic> json) {
     return TextNode(
       id: NodeId.fromString(json['id'] as String),
       properties: (json['properties'] as Map<String, dynamic>? ?? {}).map(
-          (k, v) => MapEntry(k, PropertyValue.fromJson(v as Map<String, dynamic>))),
+          (k, v) =>
+              MapEntry(k, PropertyValue.fromJson(v as Map<String, dynamic>))),
       childrenIds: (json['childrenIds'] as List<dynamic>? ?? [])
           .map((e) => NodeId.fromString(e as String))
           .toList(),
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId'] as String) : null,
+      parentId: json['parentId'] != null
+          ? NodeId.fromString(json['parentId'] as String)
+          : null,
       triggers: (json['triggers'] as Map<String, dynamic>? ?? {}).map(
           (k, v) => MapEntry(k, Trigger.fromJson(v as Map<String, dynamic>))),
-      metadata: (json['metadata'] as Map<String, dynamic>? ?? {}).map(
-          (k, v) => MapEntry(k, v as String)),
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds'] as Map<String, dynamic>) : const Rect(x: 0, y: 0, width: 100, height: 100),
+      metadata: (json['metadata'] as Map<String, dynamic>? ?? {})
+          .map((k, v) => MapEntry(k, v as String)),
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'] as Map<String, dynamic>)
+          : const Rect(x: 0, y: 0, width: 100, height: 100),
       isLocked: json['isLocked'] as bool? ?? false,
       isVisible: json['isVisible'] as bool? ?? true,
     );
@@ -52,9 +48,21 @@ class TextNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        PropertyDefinition(name: 'content', type: PropertyType.string, displayName: 'Text Content', defaultValue: 'New Text'),
-        PropertyDefinition(name: 'fontSize', type: PropertyType.double_, displayName: 'Font Size', defaultValue: 14.0),
-        PropertyDefinition(name: 'color', type: PropertyType.color, displayName: 'Text Color', defaultValue: '#000000'),
+        PropertyDefinition(
+            name: 'content',
+            type: PropertyType.string,
+            displayName: 'Text Content',
+            defaultValue: 'New Text'),
+        PropertyDefinition(
+            name: 'fontSize',
+            type: PropertyType.double_,
+            displayName: 'Font Size',
+            defaultValue: 14.0),
+        PropertyDefinition(
+            name: 'color',
+            type: PropertyType.color,
+            displayName: 'Text Color',
+            defaultValue: '#000000'),
       ];
 
   @override

@@ -5,8 +5,7 @@ class JsonUtils {
     source.forEach((key, value) {
       if (value is Map<String, dynamic> &&
           result[key] is Map<String, dynamic>) {
-        result[key] = deepMerge(
-            result[key] as Map<String, dynamic>, value);
+        result[key] = deepMerge(result[key] as Map<String, dynamic>, value);
       } else {
         result[key] = value;
       }
@@ -24,12 +23,15 @@ class JsonUtils {
             result[key] = sanitizedValue;
           }
         } else if (value is List) {
-          final sanitizedList = value.map((e) {
-            if (e is Map<String, dynamic>) {
-              return sanitize(e);
-            }
-            return e;
-          }).where((e) => e != null).toList();
+          final sanitizedList = value
+              .map((e) {
+                if (e is Map<String, dynamic>) {
+                  return sanitize(e);
+                }
+                return e;
+              })
+              .where((e) => e != null)
+              .toList();
           if (sanitizedList.isNotEmpty) {
             result[key] = sanitizedList;
           }
@@ -41,7 +43,8 @@ class JsonUtils {
     return result;
   }
 
-  static bool validateSchema(Map<String, dynamic> json, Map<String, String> schema) {
+  static bool validateSchema(
+      Map<String, dynamic> json, Map<String, String> schema) {
     for (final entry in schema.entries) {
       final key = entry.key;
       final type = entry.value;

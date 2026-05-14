@@ -1,4 +1,3 @@
-import 'dart:io';
 
 class SdkConfig {
   final String path;

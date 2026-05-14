@@ -15,9 +15,9 @@ class VariableExpressionParser {
         }
 
         dynamic rightVal = right;
-        if (right == 'true')
+        if (right == 'true') {
           rightVal = true;
-        else if (right == 'false')
+        } else if (right == 'false')
           rightVal = false;
         else if (int.tryParse(right) != null)
           rightVal = int.parse(right);

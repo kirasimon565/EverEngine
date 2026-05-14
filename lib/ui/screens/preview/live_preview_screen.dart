@@ -9,7 +9,9 @@ class LivePreviewScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          const Center(child: Text('Live Preview', style: TextStyle(color: Colors.white, fontSize: 24))),
+          const Center(
+              child: Text('Live Preview',
+                  style: TextStyle(color: Colors.white, fontSize: 24))),
           Positioned(
             bottom: 20,
             left: 20,
@@ -17,9 +19,15 @@ class LivePreviewScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(icon: const Icon(Icons.close, color: Colors.white), onPressed: () {}),
-                IconButton(icon: const Icon(Icons.camera_alt, color: Colors.white), onPressed: () {}),
-                IconButton(icon: const Icon(Icons.bug_report, color: Colors.white), onPressed: () {}),
+                IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () {}),
+                IconButton(
+                    icon: const Icon(Icons.camera_alt, color: Colors.white),
+                    onPressed: () {}),
+                IconButton(
+                    icon: const Icon(Icons.bug_report, color: Colors.white),
+                    onPressed: () {}),
               ],
             ),
           )

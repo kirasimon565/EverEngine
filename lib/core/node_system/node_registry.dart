@@ -11,9 +11,11 @@ import 'types/ui_nodes/scroll_view_node.dart';
 enum NodeCategory { ui, story, logic, media, system }
 
 class NodeRegistry {
-  static final Map<String, Node Function(Map<String, dynamic>)> _constructors = {};
+  static final Map<String, Node Function(Map<String, dynamic>)> _constructors =
+      {};
 
-  static void register(String type, Node Function(Map<String, dynamic>) constructor) {
+  static void register(
+      String type, Node Function(Map<String, dynamic>) constructor) {
     _constructors[type] = constructor;
   }
 
@@ -36,8 +38,14 @@ class NodeRegistry {
     switch (category) {
       case 'ui':
         return [
-          'ContainerNode', 'TextNode', 'ButtonNode', 'ImageNode',
-          'ColumnNode', 'RowNode', 'StackNode', 'ScrollViewNode'
+          'ContainerNode',
+          'TextNode',
+          'ButtonNode',
+          'ImageNode',
+          'ColumnNode',
+          'RowNode',
+          'StackNode',
+          'ScrollViewNode'
         ].where(isRegistered).toList();
       default:
         return [];

@@ -4,7 +4,11 @@ import 'package:everengine/core/node_system/properties/property_types.dart';
 void main() {
   group('PropertyTypes', () {
     test('PropertyValue serializes and deserializes all types', () {
-      final prop = PropertyValue(value: 'test', type: PropertyType.string, isBound: true, boundVariableName: 'var1');
+      final prop = PropertyValue(
+          value: 'test',
+          type: PropertyType.string,
+          isBound: true,
+          boundVariableName: 'var1');
       final json = prop.toJson();
       final newProp = PropertyValue.fromJson(json);
 
@@ -15,7 +19,8 @@ void main() {
     });
 
     test('PropertyValue correctly reports isBound', () {
-      final prop = PropertyValue(value: 'test', type: PropertyType.string, isBound: true);
+      final prop = PropertyValue(
+          value: 'test', type: PropertyType.string, isBound: true);
       expect(prop.isBound, isTrue);
     });
 

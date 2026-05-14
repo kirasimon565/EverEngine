@@ -64,6 +64,7 @@ class Scene {
       // For now, assuming nodes are fully nested for simplicity, or we just return root
       // In a real system, the Scene would hold a map of all nodes, and rootNode is just the ID or root
     }
+
     traverse(rootNode);
     return nodes;
   }

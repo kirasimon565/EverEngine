@@ -20,8 +20,7 @@ class VariableChangedEvent extends EngineEvent {
   final dynamic newValue;
 
   VariableChangedEvent(this.variableName, this.oldValue, this.newValue,
-      {String? sourceNodeId})
-      : super(sourceNodeId: sourceNodeId);
+      {super.sourceNodeId});
 
   @override
   Map<String, dynamic> toJson() => {

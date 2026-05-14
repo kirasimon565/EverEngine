@@ -8,26 +8,17 @@ class NotificationNode extends Node {
   static const String typeString = 'NotificationNode';
 
   NotificationNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 250, height: 80),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 250, height: 80),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory NotificationNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class NotificationNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 250, height: 80),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 250, height: 80),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,8 +52,16 @@ class NotificationNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'title', type: PropertyType.string, defaultValue: 'New Message', displayName: 'Title'),
-        const PropertyDefinition(name: 'body', type: PropertyType.string, defaultValue: 'You have a new message.', displayName: 'Body'),
+        const PropertyDefinition(
+            name: 'title',
+            type: PropertyType.string,
+            defaultValue: 'New Message',
+            displayName: 'Title'),
+        const PropertyDefinition(
+            name: 'body',
+            type: PropertyType.string,
+            defaultValue: 'You have a new message.',
+            displayName: 'Body'),
       ];
 
   @override
@@ -62,8 +70,10 @@ class NotificationNode extends Node {
       color: Colors.grey[800],
       child: ListTile(
         leading: const Icon(Icons.notifications, color: Colors.white),
-        title: Text(properties['title']?.value as String? ?? 'Title', style: const TextStyle(color: Colors.white)),
-        subtitle: Text(properties['body']?.value as String? ?? 'Body', style: const TextStyle(color: Colors.white70)),
+        title: Text(properties['title']?.value as String? ?? 'Title',
+            style: const TextStyle(color: Colors.white)),
+        subtitle: Text(properties['body']?.value as String? ?? 'Body',
+            style: const TextStyle(color: Colors.white70)),
       ),
     );
   }

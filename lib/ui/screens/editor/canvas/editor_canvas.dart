@@ -15,7 +15,9 @@ class EditorCanvas extends StatelessWidget {
             color: Colors.black, // Placeholder grid
           ),
           // Canvas content here
-          const Center(child: Text('Canvas Content Area', style: TextStyle(color: Colors.white))),
+          const Center(
+              child: Text('Canvas Content Area',
+                  style: TextStyle(color: Colors.white))),
         ],
       ),
     );

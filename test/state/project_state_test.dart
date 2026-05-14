@@ -12,7 +12,13 @@ void main() {
 
     test('createProject adds to recent projects', () async {
       final notifier = ProjectNotifier();
-      final project = Project(name: 'Test', packageName: 'com.test', engineVersion: '1.0.0', projectDir: '/tmp', createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final project = Project(
+          name: 'Test',
+          packageName: 'com.test',
+          engineVersion: '1.0.0',
+          projectDir: '/tmp',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
       await notifier.createProject(project);
       expect(notifier.state.recentProjects.length, equals(1));
       expect(notifier.state.currentProject, equals(project));
@@ -20,7 +26,13 @@ void main() {
 
     test('closeProject clears current project', () async {
       final notifier = ProjectNotifier();
-      final project = Project(name: 'Test', packageName: 'com.test', engineVersion: '1.0.0', projectDir: '/tmp', createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final project = Project(
+          name: 'Test',
+          packageName: 'com.test',
+          engineVersion: '1.0.0',
+          projectDir: '/tmp',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
       await notifier.createProject(project);
       await notifier.closeProject();
       expect(notifier.state.currentProject, isNull);
@@ -28,7 +40,13 @@ void main() {
 
     test('deleteProject removes from list', () async {
       final notifier = ProjectNotifier();
-      final project = Project(name: 'Test', packageName: 'com.test', engineVersion: '1.0.0', projectDir: '/tmp', createdAt: DateTime.now(), updatedAt: DateTime.now());
+      final project = Project(
+          name: 'Test',
+          packageName: 'com.test',
+          engineVersion: '1.0.0',
+          projectDir: '/tmp',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
       await notifier.createProject(project);
       await notifier.deleteProject(project);
       expect(notifier.state.recentProjects.isEmpty, isTrue);

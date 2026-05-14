@@ -72,7 +72,8 @@ class EditorState {
     return EditorState(
       activeScene: activeScene ?? this.activeScene,
       openSceneNames: openSceneNames ?? this.openSceneNames,
-      selectedNodeId: clearSelectedNode ? null : (selectedNodeId ?? this.selectedNodeId),
+      selectedNodeId:
+          clearSelectedNode ? null : (selectedNodeId ?? this.selectedNodeId),
       selectedNodeIds: selectedNodeIds ?? this.selectedNodeIds,
       viewMode: viewMode ?? this.viewMode,
       canvasState: canvasState ?? this.canvasState,
@@ -101,7 +102,8 @@ class EditorNotifier extends StateNotifier<EditorState> {
     if (!ids.contains(nodeId)) {
       ids.add(nodeId);
     }
-    state = state.copyWith(selectedNodeIds: ids, selectedNodeId: ids.isNotEmpty ? ids.last : null);
+    state = state.copyWith(
+        selectedNodeIds: ids, selectedNodeId: ids.isNotEmpty ? ids.last : null);
   }
 
   void clearSelection() {
@@ -117,7 +119,8 @@ class EditorNotifier extends StateNotifier<EditorState> {
   }
 }
 
-final editorProvider = StateNotifierProvider<EditorNotifier, EditorState>((ref) {
+final editorProvider =
+    StateNotifierProvider<EditorNotifier, EditorState>((ref) {
   return EditorNotifier();
 });
 

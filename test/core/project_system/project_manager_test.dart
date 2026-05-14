@@ -23,7 +23,8 @@ void main() {
       );
 
       expect(Directory('${project.projectDir}/scenes').existsSync(), isTrue);
-      expect(Directory('${project.projectDir}/assets/images').existsSync(), isTrue);
+      expect(Directory('${project.projectDir}/assets/images').existsSync(),
+          isTrue);
       expect(File('${project.projectDir}/project.json').existsSync(), isTrue);
     });
 

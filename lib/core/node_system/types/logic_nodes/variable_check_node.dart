@@ -8,26 +8,17 @@ class VariableCheckNode extends Node {
   static const String typeString = 'VariableCheckNode';
 
   VariableCheckNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 200, height: 100),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 200, height: 100),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory VariableCheckNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class VariableCheckNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 200, height: 100),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 200, height: 100),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,17 +52,39 @@ class VariableCheckNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'variableName', type: PropertyType.string, defaultValue: '', displayName: 'Variable Name'),
-        const PropertyDefinition(name: 'operator', type: PropertyType.string, defaultValue: '==', displayName: 'Operator'),
-        const PropertyDefinition(name: 'compareValue', type: PropertyType.string, defaultValue: '', displayName: 'Compare Value'),
-        const PropertyDefinition(name: 'trueNodeId', type: PropertyType.string, defaultValue: '', displayName: 'True Node ID'),
-        const PropertyDefinition(name: 'falseNodeId', type: PropertyType.string, defaultValue: '', displayName: 'False Node ID'),
+        const PropertyDefinition(
+            name: 'variableName',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Variable Name'),
+        const PropertyDefinition(
+            name: 'operator',
+            type: PropertyType.string,
+            defaultValue: '==',
+            displayName: 'Operator'),
+        const PropertyDefinition(
+            name: 'compareValue',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Compare Value'),
+        const PropertyDefinition(
+            name: 'trueNodeId',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'True Node ID'),
+        const PropertyDefinition(
+            name: 'falseNodeId',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'False Node ID'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.deepPurple[400], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.deepPurple[400],
+          borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
       child: Center(
         child: Text(

@@ -9,26 +9,17 @@ class DividerNode extends Node {
   static const String typeString = 'DividerNode';
 
   DividerNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 200, height: 16),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 200, height: 16),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory DividerNode.fromJson(Map<String, dynamic> json) {
@@ -36,16 +27,25 @@ class DividerNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 200, height: 16),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 200, height: 16),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -53,11 +53,31 @@ class DividerNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'height', type: PropertyType.double_, defaultValue: 16.0, displayName: 'Height'),
-        const PropertyDefinition(name: 'thickness', type: PropertyType.double_, defaultValue: 1.0, displayName: 'Thickness'),
-        const PropertyDefinition(name: 'indent', type: PropertyType.double_, defaultValue: 0.0, displayName: 'Indent'),
-        const PropertyDefinition(name: 'endIndent', type: PropertyType.double_, defaultValue: 0.0, displayName: 'End Indent'),
-        const PropertyDefinition(name: 'color', type: PropertyType.color, defaultValue: '#BDBDBD', displayName: 'Color'),
+        const PropertyDefinition(
+            name: 'height',
+            type: PropertyType.double_,
+            defaultValue: 16.0,
+            displayName: 'Height'),
+        const PropertyDefinition(
+            name: 'thickness',
+            type: PropertyType.double_,
+            defaultValue: 1.0,
+            displayName: 'Thickness'),
+        const PropertyDefinition(
+            name: 'indent',
+            type: PropertyType.double_,
+            defaultValue: 0.0,
+            displayName: 'Indent'),
+        const PropertyDefinition(
+            name: 'endIndent',
+            type: PropertyType.double_,
+            defaultValue: 0.0,
+            displayName: 'End Indent'),
+        const PropertyDefinition(
+            name: 'color',
+            type: PropertyType.color,
+            defaultValue: '#BDBDBD',
+            displayName: 'Color'),
       ];
 
   @override

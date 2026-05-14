@@ -9,8 +9,9 @@ class SdkValidationResult {
 
 class SdkValidator {
   static Future<SdkValidationResult> validate(SdkConfig config) async {
-    if (!config.isValid)
+    if (!config.isValid) {
       return const SdkValidationResult(false, 'SDK is invalid');
+    }
     return const SdkValidationResult(true, 'SDK is compatible');
   }
 }

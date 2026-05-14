@@ -8,26 +8,17 @@ class TimerEventNode extends Node {
   static const String typeString = 'TimerEventNode';
 
   TimerEventNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 150, height: 60),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 150, height: 60),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory TimerEventNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class TimerEventNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 150, height: 60),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 150, height: 60),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,16 +52,27 @@ class TimerEventNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'realTimeMinutes', type: PropertyType.integer, defaultValue: 5, displayName: 'Minutes'),
-        const PropertyDefinition(name: 'timerLabel', type: PropertyType.string, defaultValue: 'Waiting...', displayName: 'Label'),
+        const PropertyDefinition(
+            name: 'realTimeMinutes',
+            type: PropertyType.integer,
+            defaultValue: 5,
+            displayName: 'Minutes'),
+        const PropertyDefinition(
+            name: 'timerLabel',
+            type: PropertyType.string,
+            defaultValue: 'Waiting...',
+            displayName: 'Label'),
       ];
 
   @override
   Widget buildPreview(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.amber[800], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.amber[800], borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
-      child: Center(child: Text("Timer: \${properties['realTimeMinutes']?.value}m", style: const TextStyle(color: Colors.white))),
+      child: Center(
+          child: Text("Timer: \${properties['realTimeMinutes']?.value}m",
+              style: const TextStyle(color: Colors.white))),
     );
   }
 

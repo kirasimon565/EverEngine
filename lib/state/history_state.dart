@@ -66,6 +66,7 @@ class HistoryNotifier extends StateNotifier<HistoryState> {
   }
 }
 
-final historyProvider = StateNotifierProvider<HistoryNotifier, HistoryState>((ref) {
+final historyProvider =
+    StateNotifierProvider<HistoryNotifier, HistoryState>((ref) {
   return HistoryNotifier();
 });

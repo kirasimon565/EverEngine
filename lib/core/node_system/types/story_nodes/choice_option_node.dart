@@ -8,26 +8,17 @@ class ChoiceOptionNode extends Node {
   static const String typeString = 'ChoiceOptionNode';
 
   ChoiceOptionNode({
-    required NodeId id,
-    Map<String, PropertyValue> properties = const {},
-    List<NodeId> childrenIds = const [],
-    NodeId? parentId,
-    Map<String, Trigger> triggers = const {},
-    Map<String, String> metadata = const {},
-    Rect bounds = const Rect(x: 0, y: 0, width: 200, height: 50),
-    bool isLocked = false,
-    bool isVisible = true,
+    required super.id,
+    super.properties,
+    super.childrenIds,
+    super.parentId,
+    super.triggers,
+    super.metadata,
+    super.bounds = const Rect(x: 0, y: 0, width: 200, height: 50),
+    super.isLocked,
+    super.isVisible,
   }) : super(
-          id: id,
           type: typeString,
-          properties: properties,
-          childrenIds: childrenIds,
-          parentId: parentId,
-          triggers: triggers,
-          metadata: metadata,
-          bounds: bounds,
-          isLocked: isLocked,
-          isVisible: isVisible,
         );
 
   factory ChoiceOptionNode.fromJson(Map<String, dynamic> json) {
@@ -35,16 +26,25 @@ class ChoiceOptionNode extends Node {
       id: NodeId.fromString(json['id']),
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, PropertyValue.fromJson(v)),
-          ) ?? {},
-      childrenIds: (json['childrenIds'] as List?)?.map((id) => NodeId.fromString(id)).toList() ?? [],
-      parentId: json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
+          ) ??
+          {},
+      childrenIds: (json['childrenIds'] as List?)
+              ?.map((id) => NodeId.fromString(id))
+              .toList() ??
+          [],
+      parentId:
+          json['parentId'] != null ? NodeId.fromString(json['parentId']) : null,
       triggers: (json['triggers'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, Trigger.fromJson(v)),
-          ) ?? {},
+          ) ??
+          {},
       metadata: (json['metadata'] as Map<String, dynamic>?)?.map(
             (k, v) => MapEntry(k, v.toString()),
-          ) ?? {},
-      bounds: json['bounds'] != null ? Rect.fromJson(json['bounds']) : const Rect(x: 0, y: 0, width: 200, height: 50),
+          ) ??
+          {},
+      bounds: json['bounds'] != null
+          ? Rect.fromJson(json['bounds'])
+          : const Rect(x: 0, y: 0, width: 200, height: 50),
       isLocked: json['isLocked'] ?? false,
       isVisible: json['isVisible'] ?? true,
     );
@@ -52,9 +52,21 @@ class ChoiceOptionNode extends Node {
 
   @override
   List<PropertyDefinition> get propertyDefinitions => [
-        const PropertyDefinition(name: 'labelText', type: PropertyType.string, defaultValue: 'Choice', displayName: 'Label'),
-        const PropertyDefinition(name: 'conditionToShow', type: PropertyType.string, defaultValue: '', displayName: 'Condition'),
-        const PropertyDefinition(name: 'nextNodeId', type: PropertyType.string, defaultValue: '', displayName: 'Next Node ID'),
+        const PropertyDefinition(
+            name: 'labelText',
+            type: PropertyType.string,
+            defaultValue: 'Choice',
+            displayName: 'Label'),
+        const PropertyDefinition(
+            name: 'conditionToShow',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Condition'),
+        const PropertyDefinition(
+            name: 'nextNodeId',
+            type: PropertyType.string,
+            defaultValue: '',
+            displayName: 'Next Node ID'),
       ];
 
   @override
@@ -62,9 +74,11 @@ class ChoiceOptionNode extends Node {
     final labelText = properties['labelText']?.value as String? ?? 'Choice';
 
     return Container(
-      decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+          color: Colors.white24, borderRadius: BorderRadius.circular(8)),
       padding: const EdgeInsets.all(8),
-      child: Center(child: Text(labelText, style: const TextStyle(color: Colors.white))),
+      child: Center(
+          child: Text(labelText, style: const TextStyle(color: Colors.white))),
     );
   }
 
